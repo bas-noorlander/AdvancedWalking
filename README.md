@@ -25,6 +25,8 @@ Instead of using your current walking method ie: `WebWalking.walkTo(destination)
 
 If you only want to find a path to the destination (without going there). You can use `AdvancedWalking.findPath(destination)`. Which will generate a path from the players' position to the destination. Alternatively use `AdvancedWalking.findPath(start, destination)` to use a different starting position. These functions return a `Path` object which contain the tiles and any actions it has to take (like climbing stairs, or optionally teleport). View the `Path` [javadocs]() for more information.
 
+Note that the first time that a method is called, be it #travel() or #walk() (or any other). AdvancedWalking will set everything up and check for updates first. This could be undesired and you might want to do this when your script starts instead. You can call `AdvancedWalking.prepare()` to do so.
+
 ##### Code features
 Full javadocs are available [here]().
 
@@ -44,3 +46,4 @@ Extend `AbstractShape` and `IShapeFactory`. The included SampleGeneratorScript s
 
 You also have complete control on how the updater works, so you can point it to your own version of the mesh if you like. You can do so by extending `AbstractUpdater` and change your class that implements `IPathfinder` to use that updater.
 
+Furthermore, there is an advanced Event system which let you hook into AdvancedWalking to modify data or trigger your own code. Exact code usage is still under development, but will be along the lines of: `EventManager.listen(EVENT.ON_FIND_PATH, yourClassThatImplementsIEventFindPath);` or `EventManager.listen(EVENT.ON_UPDATED_MESH, yourClassThatImplementsIEventUpdatedMesh);` which will allow you to run additional code or make adjustments to the parameters before it is processed further.
