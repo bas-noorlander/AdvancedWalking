@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Laniax/AdvancedWalking.svg)](https://travis-ci.org/Laniax/AdvancedWalking)
+
 # AdvancedWalking
 A navmesh pathfinder/walking library for Tribot.
 
