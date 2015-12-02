@@ -3,9 +3,9 @@ package scripts.AdvancedWalking.Game.Path.Steps;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Game.Path.AbstractStep;
-import scripts.AdvancedWalking.Game.World.Teleports.AbstractMagicTeleport;
-import scripts.AdvancedWalking.Game.World.Teleports.ITeleport;
-import scripts.AdvancedWalking.Game.World.Teleports.ItemTeleports;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractItemTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractMagicTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
 
 /**
  * A TeleportStep is a teleport in a path.
@@ -22,9 +22,6 @@ public class TeleportStep extends AbstractStep {
 
     public TeleportStep(ITeleport teleport) {
         this._teleport = teleport;
-
-//        if (teleport instanceof AbstractMagicTeleport)
-//            this._destination = ((AbstractMagicTeleport)teleport).getDestination();
     }
 
     @Override
@@ -44,7 +41,13 @@ public class TeleportStep extends AbstractStep {
 
             AbstractMagicTeleport teleport = (AbstractMagicTeleport) getTeleport();
 
-        } else if(getTeleport() instanceof ItemTeleports) {
+            //todo: do spell logic
+
+        } else if(getTeleport() instanceof AbstractItemTeleport) {
+
+            AbstractItemTeleport teleport = (AbstractItemTeleport) getTeleport();
+
+            //todo: do item logic
 
         }
 

@@ -3,7 +3,7 @@ package scripts.AdvancedWalking.Game.Path.Steps;
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Game.Path.AbstractStep;
-import scripts.AdvancedWalking.Game.World.Teleports.ITeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
 
 /**
  * A TileStep is a 'simple' step inside a path. We can simply walk there.

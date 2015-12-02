@@ -4,7 +4,7 @@ import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Game.Path.AbstractStep;
-import scripts.AdvancedWalking.Game.World.Teleports.ITeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
 
 /**
  * A ShortcutStep is a agility shortcut in a path.

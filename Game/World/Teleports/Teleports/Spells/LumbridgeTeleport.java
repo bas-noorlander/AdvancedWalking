@@ -1,11 +1,11 @@
-package scripts.AdvancedWalking.Game.World.Teleports.Teleports;
+package scripts.AdvancedWalking.Game.World.Teleports.Teleports.Spells;
 
 import org.tribot.api2007.Constants;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Collections.Pair;
 import scripts.AdvancedWalking.Game.Items.Runes.Rune;
 import scripts.AdvancedWalking.Game.Items.Runes.RuneSet;
-import scripts.AdvancedWalking.Game.World.Teleports.AbstractMagicTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractMagicTeleport;
 
 /**
  * @author Laniax

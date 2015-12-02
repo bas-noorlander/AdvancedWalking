@@ -13,7 +13,7 @@ import org.tribot.api2007.types.RSObjectDefinition;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Game.Path.AbstractStep;
-import scripts.AdvancedWalking.Game.World.Teleports.ITeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
 
 /**
  * A StairStep is a stair in a path.

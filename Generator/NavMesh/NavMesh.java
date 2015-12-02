@@ -78,6 +78,20 @@ public class NavMesh implements Serializable {
      */
     public Path findPath(final Positionable start, final Positionable target) {
 
+        return findPath(start, target, true, true);
+
+    }
+
+    /**
+     * Returns a path from the start to the target positions.
+     * @param start
+     * @param target
+     * @param useTeleports
+     * @param useShortcuts
+     * @return a path object, empty if no path was found.
+     */
+    public Path findPath(final Positionable start, final Positionable target, final boolean useTeleports, final boolean useShortcuts) {
+
         Path path = new Path();
 
         if (start == null || target == null) {
@@ -98,10 +112,11 @@ public class NavMesh implements Serializable {
             return path;
         }
 
-        return findPath(path, startShape, targetShape, start, target);
+        return findPath(path, startShape, targetShape, start, target, useTeleports, useShortcuts);
+
     }
 
-    private Path findPath(final Path path, final AbstractShape start, final AbstractShape target, final Positionable origin, final Positionable destination) {
+    private Path findPath(final Path path, final AbstractShape start, final AbstractShape target, final Positionable origin, final Positionable destination, final boolean useTeleports, final boolean useShortcuts ) {
 
         // Check if we are already inside the same shape, if so, we can walk without obstacles.
         if (start.equals(target)) {
@@ -111,6 +126,8 @@ public class NavMesh implements Serializable {
             }
             return path;
         }
+
+        //todo: check teleports
 
         for (AbstractShape shape : shapes) {
             shape.clearCost();

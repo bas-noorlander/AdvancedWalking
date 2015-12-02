@@ -1,9 +1,6 @@
-package scripts.AdvancedWalking.Game.World.Teleports;
+package scripts.AdvancedWalking.Game.World.Teleports.Teleports;
 
-import org.tribot.api2007.Constants;
 import org.tribot.api2007.types.RSTile;
-import scripts.AdvancedWalking.Core.Collections.Pair;
-import scripts.AdvancedWalking.Game.Items.Runes.Rune;
 import scripts.AdvancedWalking.Game.Items.Runes.RuneSet;
 
 /**
