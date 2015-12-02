@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Laniax/AdvancedWalking.svg)](https://travis-ci.org/Laniax/AdvancedWalking)
+
 # AdvancedWalking
 A navmesh pathfinder/walking library for Tribot.
 
@@ -46,4 +48,4 @@ Extend `AbstractShape` and `IShapeFactory`. The included SampleGeneratorScript s
 
 You also have complete control on how the updater works, so you can point it to your own version of the mesh if you like. You can do so by extending `AbstractUpdater` and change your class that implements `IPathfinder` to use that updater.
 
-Furthermore, there is an advanced Event system which let you hook into AdvancedWalking to modify data or trigger your own code. Exact code usage is still under development, but will be along the lines of: `EventManager.listen(EVENT.ON_FIND_PATH, yourClassThatImplementsIEventFindPath);` or `EventManager.listen(EVENT.ON_UPDATED_MESH, yourClassThatImplementsIEventUpdatedMesh);` which will allow you to run additional code or make adjustments to the parameters before it is processed further.
+Furthermore, there is an advanced Event system which let you hook into AdvancedWalking to modify data or trigger your own code. Exact code usage is still under development, but will be along the lines of: `EventManager.listen(yourClassThatImplementsIOnFindPath);` or `EventManager.listen(yourClassThatImplementsIOnUpdatedMesh);` which will allow you to run additional code or make adjustments to the parameters before it is processed further.
