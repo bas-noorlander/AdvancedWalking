@@ -7,6 +7,7 @@ import scripts.AdvancedWalking.Generator.Generator;
 import scripts.AdvancedWalking.Generator.NavMesh.AbstractShape;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -37,18 +38,11 @@ public class Polytope extends AbstractShape {
 
     private void growTile(MeshTile tile, Generator generator, Set<AbstractShape> shapeList) {
 
+
         for (Direction cardinal : Direction.getAllCardinal()) {
 
-//                for (Direction ordinal : Direction.getAllOrdinal()) {
-//                    // We dont have to grow diagonally, but we do want to check for blocked walls etc.
-//                    MeshTile growTile = tile.canCrow(ordinal);
-//
-//                    if (growTile == null) {
-//                        poly.AddEdge(tile, ordinal, false); // not sure if boundary
-//                    }
-//                }
+            final MeshTile growTile = tile.getGrowTile(generator, cardinal);
 
-            final MeshTile growTile = tile.getGrowTile(cardinal);
             if (growTile != null) {
 
                 // Is not a walkable/valid tile.
@@ -68,9 +62,6 @@ public class Polytope extends AbstractShape {
                 if (!isAllowedSize()) {
                     this.removeTile(growTile);
                 }
-            } else {
-                // Tile was blocked in this direction, mark it as a polygon edge.
-//                poly.AddEdge(tile, cardinal, false);
             }
         }
     }
@@ -105,25 +96,31 @@ public class Polytope extends AbstractShape {
     @Override
     public void grow(Generator generator, Set<AbstractShape> shapeList) {
 
-        int preSize = 0;
-        int postSize = 1;
+        int preSize = 1;
+
+        growTile(this.startTile, generator, shapeList);
+
+        int postSize = this.getTileCount();
 
         // We keep growing until we dont change size anymore..
         while (preSize != postSize) {
 
             preSize = this.getTileCount();
 
-            growTile(this.startTile, generator, shapeList);
+            List<MeshTile> polyTiles = this.getAllTiles();
+            for (int i =0; i < polyTiles.size(); i ++) {
+                MeshTile t = polyTiles.get(i);
+                growTile(t, generator, shapeList);
+            }
 
             postSize = this.getTileCount();
-
         }
     }
 
     @Override
     public boolean contains(Positionable tile) {
         if (tile instanceof MeshTile)
-            return shapeTiles.contains((MeshTile)tile);
+            return shapeTiles.contains(tile);
         else {
             return shapeTiles.contains(new MeshTile(tile.getPosition()));
         }
@@ -153,7 +150,7 @@ public class Polytope extends AbstractShape {
 
     @Override
     public int hashCode() {
-        return 0;
+        return startTile.hashCode();
     }
 
     @Override

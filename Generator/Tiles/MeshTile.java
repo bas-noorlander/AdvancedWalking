@@ -6,8 +6,10 @@ import org.tribot.api2007.PathFinding;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSObjectDefinition;
 import org.tribot.api2007.types.RSTile;
+import scripts.AdvancedWalking.Core.Mathematics.FastMath;
 import scripts.AdvancedWalking.Game.World.CollisionFlags;
 import scripts.AdvancedWalking.Game.World.Direction;
+import scripts.AdvancedWalking.Generator.Generator;
 
 /**
  * The MeshTile is a internal object used by the generator. Do not use directly.
@@ -36,7 +38,7 @@ public class MeshTile implements Positionable {
         this.Plane = rstile.getPlane();
         this.RSTile = rstile;
         this.CollisionData = getCollisionData();
-        this.objects = Objects.getAt(this.RSTile);
+        this.objects = Objects.getAt(rstile);
 
         calculateCollision();
     }
@@ -49,22 +51,28 @@ public class MeshTile implements Positionable {
 
     /**
      * Gets the tile that we can grow into.
+     *
+     * @param generator
      * @param direction the direction we should check
      * @return the tile, or null if nothing found
      */
-    public MeshTile getGrowTile(Direction direction) {
+    public MeshTile getGrowTile(Generator generator, Direction direction) {
 
         final RSTile growTile = getAdjacentTile(direction);
 
         if (growTile == null)
             return null;
 
-        final MeshTile result = new MeshTile(growTile);
+        final MeshTile result = generator.findTile(growTile);
+
+        if (result == null)
+            return null;
 
         if (result.isBlocked(CollisionFlags.BLOCKED))
             return null;
 
         if (isBlocked(direction)) {
+
             // The tile is blocked in this direction, however it might be because of a closed door.
             // If so, ignore the blockage
             boolean isDoor = false;
@@ -97,18 +105,14 @@ public class MeshTile implements Positionable {
      */
     public int getCollisionData() {
 
-        int result = -1;
-
         final RSTile t = this.RSTile.toLocalTile();
 
         final int[][] data = PathFinding.getCollisionData();
 
-        int X = t.getX();
-        int Y = t.getY();
-        if (Y > 0 && Y < 103 && X > 0 && X < 103)
-            result = data[X][Y];
+        int X = FastMath.minMax(t.getX(), 0, 103);
+        int Y = FastMath.minMax(t.getY(), 0, 103);
 
-        return result;
+        return data[X][Y];
     }
 
     private void calculateCollision() {
@@ -228,7 +232,7 @@ public class MeshTile implements Positionable {
 
             RSTile o = (RSTile) obj;
 
-            return RSTile.equals(o);
+            return X == o.getX() && Y == o.getY() && Plane == o.getPlane();
         }
 
         return false;

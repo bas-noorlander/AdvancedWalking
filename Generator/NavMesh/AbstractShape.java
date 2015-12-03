@@ -8,6 +8,7 @@ import scripts.AdvancedWalking.Game.Path.Path;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,7 @@ public abstract class AbstractShape implements Serializable {
 
     public Set<AbstractShape> adjacentShapes = new LinkedHashSet<>();
 
-    public transient Set<MeshTile> shapeTiles = new LinkedHashSet<>();
+    public transient List<MeshTile> shapeTiles = new ArrayList<>();
 
     public transient int cost = Integer.MAX_VALUE;
 
@@ -37,7 +38,7 @@ public abstract class AbstractShape implements Serializable {
      * Get all the {@link MeshTile}'s that are inside this shape.
      * @return
      */
-    public Set<MeshTile> getAllTiles() {
+    public List<MeshTile> getAllTiles() {
         return shapeTiles;
     }
 
@@ -112,7 +113,6 @@ public abstract class AbstractShape implements Serializable {
         cost += (distanceToStart + distanceToTarget + innerDistance);
         this.cost = cost;
 
-//        long sTime = System.currentTimeMillis();
         for (AbstractShape adjacent : this.adjacentShapes) {
 
             adjacent.calculateCost(target, start, cost);

@@ -8,23 +8,20 @@ import scripts.AdvancedWalking.Generator.NavMesh.IShapeFactory;
 import scripts.AdvancedWalking.Generator.NavMesh.NavMesh;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Laniax
  */
 public class Generator {
 
-    LogProxy log = new LogProxy("Generator");
+    static LogProxy log = new LogProxy("Generator");
 
-    public ArrayList<MeshTile> validTiles;
+    public Set<MeshTile> validTiles;
 
     IShapeFactory factory;
 
-    public Generator(IShapeFactory factory, ArrayList<MeshTile> validTiles) {
+    public Generator(IShapeFactory factory, Set<MeshTile> validTiles) {
         this.validTiles = validTiles;
         this.factory = factory;
     }
@@ -88,7 +85,6 @@ public class Generator {
         }
     }
 
-
     /**
      * Checks if the given tile is in any of the shapes of the given list.
      * @param shapeList
@@ -104,9 +100,22 @@ public class Generator {
         return null;
     }
 
+    /**
+     * Returns the {@link MeshTile} associated with the {@link RSTile}.
+     * @param tile
+     * @return
+     */
+    public MeshTile findTile(RSTile tile) {
+        for(MeshTile t : validTiles) {
+            if (t.equals(tile))
+                return t;
+        }
+        return null;
+    }
+
     private Set<AbstractShape> createShapes() {
 
-        Set<AbstractShape> shapeList = new HashSet<AbstractShape>();
+        Set<AbstractShape> shapeList = new HashSet<>();
 
         Iterator<MeshTile> iter = validTiles.iterator();
         while (iter.hasNext()) {

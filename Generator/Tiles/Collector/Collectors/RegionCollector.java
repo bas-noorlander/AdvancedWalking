@@ -8,6 +8,8 @@ import scripts.AdvancedWalking.Generator.Tiles.Collector.ITileCollector;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Laniax
@@ -16,7 +18,7 @@ public class RegionCollector implements ITileCollector {
 
     ArrayList<RSTile> scannedList = new ArrayList<>();
 
-    ArrayList<MeshTile> result = new ArrayList<>();
+    Set<MeshTile> result = new HashSet<>();
 
     /**
      * Removes all the tiles from the closed list so they can be scanned again.
@@ -28,7 +30,7 @@ public class RegionCollector implements ITileCollector {
     @Override
     public void collect() {
         final RSTile base = new RSTile(Game.getBaseX(), Game.getBaseY());
-        final RSArea chunk = new RSArea(base, new RSTile(base.getX() + 95, base.getY() + 95));
+        final RSArea chunk = new RSArea(base, new RSTile(base.getX() + 102, base.getY() + 102));
 
         for (RSTile scanTile : chunk.getAllTiles()) {
 
@@ -47,7 +49,7 @@ public class RegionCollector implements ITileCollector {
     }
 
     @Override
-    public ArrayList<MeshTile> getTiles() {
+    public Set<MeshTile> getTiles() {
 
         return result;
 
