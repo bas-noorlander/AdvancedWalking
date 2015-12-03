@@ -73,10 +73,14 @@ public class Generator {
                         continue;
 
                     final RSTile checkTile = tile.getAdjacentTile(direction);
+                    final MeshTile chckTile = findTile(checkTile);
+
+                    if (chckTile == null)
+                        continue;
 
                     if (checkTile != null) {
                         AbstractShape checkShape;
-                        if ((checkShape = isInShape(shapes, new MeshTile(checkTile))) != null && !checkShape.equals(shape)) {
+                        if ((checkShape = isInShape(shapes, chckTile)) != null && !checkShape.equals(shape)) {
                             shape.addAdjacent(checkShape);
                         }
                     }
