@@ -34,8 +34,8 @@ public class MeshTile implements Positionable {
         this.X = rstile.getX();
         this.Y = rstile.getY();
         this.Plane = rstile.getPlane();
-        this.CollisionData = getCollisionData();
         this.RSTile = rstile;
+        this.CollisionData = getCollisionData();
         this.objects = Objects.getAt(this.RSTile);
 
         calculateCollision();
