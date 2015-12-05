@@ -28,6 +28,7 @@ public class Generator {
 
     /**
      * Builds the scanned tiles into a {@link NavMesh} object.
+     *
      * @return
      */
     public NavMesh run() {
@@ -57,6 +58,7 @@ public class Generator {
 
     /**
      * Calculates which shapes are adjacent to eachother.
+     *
      * @param shapes
      */
     private void calculateAdjacent(Set<AbstractShape> shapes) {
@@ -78,11 +80,9 @@ public class Generator {
                     if (chckTile == null)
                         continue;
 
-                    if (checkTile != null) {
-                        AbstractShape checkShape;
-                        if ((checkShape = isInShape(shapes, chckTile)) != null && !checkShape.equals(shape)) {
-                            shape.addAdjacent(checkShape);
-                        }
+                    AbstractShape checkShape;
+                    if ((checkShape = isInShape(shapes, chckTile)) != null && !checkShape.equals(shape)) {
+                        shape.addAdjacent(checkShape);
                     }
                 }
             }
@@ -91,6 +91,7 @@ public class Generator {
 
     /**
      * Checks if the given tile is in any of the shapes of the given list.
+     *
      * @param shapeList
      * @param tile
      * @return the shape it was in, or null if not found.
@@ -106,11 +107,12 @@ public class Generator {
 
     /**
      * Returns the {@link MeshTile} associated with the {@link RSTile}.
+     *
      * @param tile
      * @return
      */
     public MeshTile findTile(RSTile tile) {
-        for(MeshTile t : validTiles) {
+        for (MeshTile t : validTiles) {
             if (t.equals(tile))
                 return t;
         }
