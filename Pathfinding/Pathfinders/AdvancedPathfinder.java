@@ -4,8 +4,8 @@ import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.Player;
 import scripts.AdvancedWalking.Core.IO.IOExtensions;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
-import scripts.AdvancedWalking.Generator.NavMesh.NavMesh;
 import scripts.AdvancedWalking.Game.Path.Path;
+import scripts.AdvancedWalking.Generator.NavMesh.NavMesh;
 import scripts.AdvancedWalking.Network.CommonFiles;
 import scripts.AdvancedWalking.Network.Updater.Updaters.NavMeshUpdater;
 import scripts.AdvancedWalking.Pathfinding.IPathfinder;
@@ -42,9 +42,7 @@ public class AdvancedPathfinder implements IPathfinder {
 
                 log.info("Successfully set up in %dms!", System.currentTimeMillis() - sTime);
 
-                _isInitialized = true;
-
-                return true;
+                return _isInitialized = true;
             }
         }
 
@@ -52,12 +50,12 @@ public class AdvancedPathfinder implements IPathfinder {
     }
 
     @Override
-    public Path findPath(Positionable destination) {
-        return mesh.findPath(Player.getPosition(), destination);
+    public Path findPath(Positionable destination, boolean useTeleports, boolean useAgilityShortcuts) {
+        return mesh.findPath(Player.getPosition(), destination, useTeleports, useAgilityShortcuts);
     }
 
     @Override
-    public Path findPath(Positionable start, Positionable destination) {
-        return mesh.findPath(start, destination);
+    public Path findPath(Positionable start, Positionable destination, boolean useTeleports, boolean useAgilityShortcuts) {
+        return mesh.findPath(start, destination, useTeleports, useAgilityShortcuts);
     }
 }

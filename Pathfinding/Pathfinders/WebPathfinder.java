@@ -22,14 +22,14 @@ public class WebPathfinder implements IPathfinder {
     }
 
     @Override
-    public Path findPath(Positionable destination) {
+    public Path findPath(Positionable destination, boolean useTeleports, boolean useAgilityShortcuts) {
         Path path = new Path();
         path.appendStep(destination.getPosition());
         return path;
     }
 
     @Override
-    public Path findPath(Positionable start, Positionable destination) {
+    public Path findPath(Positionable start, Positionable destination, boolean useTeleports, boolean useAgilityShortcuts) {
         Path path = new Path();
         path.appendStep(destination.getPosition());
         return path;

@@ -103,8 +103,10 @@ public final class AdvancedWalking {
         _useAgilityShortcuts = value;
     }
 
+
     /**
-     * Find a path to the destination
+     * Find a path from the players' position to the destination
+     * Will search for teleports or agility shortcuts.
      *
      * @param destination
      * @return a {@link Path} object. Empty if no path was found.
@@ -114,7 +116,47 @@ public final class AdvancedWalking {
         if (!_pathfinder.isInitialized())
             initialize();
 
-        Path path = _pathfinder.findPath(destination);
+        Path path = _pathfinder.findPath(destination, true, true);
+
+        EventManager.triggerPathFound(path);
+
+        return path;
+    }
+
+    /**
+     * Find a path to the destination
+     *
+     * @param destination
+     * @param useTeleports
+     * @param useAgilityShortcuts
+     * @return a {@link Path} object. Empty if no path was found.
+     */
+    public static Path findPath(final Positionable destination, final boolean useTeleports, final boolean useAgilityShortcuts) {
+
+        if (!_pathfinder.isInitialized())
+            initialize();
+
+        Path path = _pathfinder.findPath(destination, useTeleports, useAgilityShortcuts);
+
+        EventManager.triggerPathFound(path);
+
+        return path;
+    }
+
+    /**
+     * Find a path from the start to the destination
+     * Will search for teleports or agility shortcuts.
+     *
+     * @param start
+     * @param destination
+     * @return a {@link Path} object. Empty if no path was found.
+     */
+    public static Path findPath(final Positionable start, final Positionable destination) {
+
+        if (!_pathfinder.isInitialized())
+            initialize();
+
+        Path path = _pathfinder.findPath(start, destination, true, true);
 
         EventManager.triggerPathFound(path);
 
@@ -126,14 +168,16 @@ public final class AdvancedWalking {
      *
      * @param start
      * @param destination
+     * @param useTeleports
+     * @param useAgilityShortcuts
      * @return a {@link Path} object. Empty if no path was found.
      */
-    public static Path findPath(final Positionable start, final Positionable destination) {
+    public static Path findPath(final Positionable start, final Positionable destination, final boolean useTeleports, final boolean useAgilityShortcuts) {
 
         if (!_pathfinder.isInitialized())
             initialize();
 
-        Path path = _pathfinder.findPath(start, destination);
+        Path path = _pathfinder.findPath(start, destination, useTeleports, useAgilityShortcuts);
 
         EventManager.triggerPathFound(path);
 
@@ -151,7 +195,7 @@ public final class AdvancedWalking {
     /**
      * Walk to the destination without using teleports or agility shortcuts.
      * This method reverts to {@link WebWalking} if {@link AdvancedWalking} failed to {@link #initialize()}
-     * you can change this behaviour using {@link #_useWebWalkingFallback}
+     * you can change this behaviour using {@link #useWebWalkingFallback}
      *
      * @param destination
      * @return true if successfully reached the destination, false otherwise.
@@ -175,7 +219,7 @@ public final class AdvancedWalking {
     /**
      * Travels to the destination, using teleports or agility shortcuts if available
      * This method reverts to {@link WebWalking} if {@link AdvancedWalking} failed to {@link #initialize()}
-     * you can change this behaviour using {@link #_useWebWalkingFallback}
+     * you can change this behaviour using {@link #useWebWalkingFallback}
      *
      * @param destination
      * @return true if successfully reached the destination, false otherwise.
@@ -188,7 +232,7 @@ public final class AdvancedWalking {
     /**
      * Travels the {@link Path}
      * This method reverts to {@link WebWalking} if {@link AdvancedWalking} failed to {@link #initialize()}
-     * you can change this behaviour using {@link #_useWebWalkingFallback}
+     * you can change this behaviour using {@link #useWebWalkingFallback}
      *
      * @param p - the path to walk
      * @return true if successfully reached the destination, false otherwise.
@@ -209,7 +253,7 @@ public final class AdvancedWalking {
 
             log.info("Pathfinder successfully initialized!");
 
-        } else if (_useWebWalkingFallback) {
+        } else if (useWebWalkingFallback()) {
 
             log.warn("Pathfinder failed to initialize, we will use WebWalking instead.");
 
