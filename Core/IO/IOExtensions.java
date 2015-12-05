@@ -49,7 +49,7 @@ public class IOExtensions {
      * @param obj the object to serialize
      * @param outputFile the file where the data will be written in
      */
-    public static void Serialize(Object obj, File outputFile) {
+    public static boolean Serialize(Object obj, File outputFile) {
 
         try {
             OutputStream fos = new FileOutputStream(outputFile);
@@ -64,12 +64,16 @@ public class IOExtensions {
                 oos.close();
                 bos.close();
                 fos.close();
+
+                return true;
             }
 
         } catch (IOException e) {
             log.error("Error serializing object to file: %s.", e.getMessage());
             e.printStackTrace();
         }
+
+        return false;
     }
 
     /**

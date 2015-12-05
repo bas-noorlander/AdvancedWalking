@@ -16,10 +16,6 @@ public final class Transmission {
 
     LogProxy log = new LogProxy("Transmission");
 
-//    public static File download(final URL remotePath, final URL localPath) {
-//
-//    }
-
     /**
      * Downloads a string from a text file.
      * @param url - the url to download from

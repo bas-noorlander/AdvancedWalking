@@ -2,16 +2,17 @@ package scripts.AdvancedWalking.Generator;
 
 import org.tribot.api.General;
 import org.tribot.api2007.Login;
-import org.tribot.api2007.Projection;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
 import org.tribot.script.interfaces.MouseActions;
 import org.tribot.script.interfaces.Painting;
+import scripts.AdvancedWalking.Core.IO.IOExtensions;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Generator.NavMesh.Factories.PolytopeFactory;
 import scripts.AdvancedWalking.Generator.NavMesh.NavMesh;
 import scripts.AdvancedWalking.Generator.Tiles.Collector.Collectors.RegionCollector;
 import scripts.AdvancedWalking.Generator.Tiles.Collector.ITileCollector;
+import scripts.AdvancedWalking.Network.CommonFiles;
 
 import java.awt.*;
 
@@ -45,10 +46,14 @@ public class SampleGeneratorScript extends Script implements Painting, MouseActi
         Generator generator = new Generator(new PolytopeFactory(), collector.getTiles());
 
         // Let the generator do its work and get a fully able NavMesh object in return!
-        // You can do whatever with this object, use it directly to pathfind on, or serialize it to a file and use it later..
         mesh = generator.run();
 
+
+        // You can do whatever with the mesh object, use it directly to pathfind on, or serialize it to a file and use it later..
         log.info("Mesh contains %d shapes!", mesh.getShapeCount());
+        if (IOExtensions.Serialize(mesh, CommonFiles.localMeshFile)) {
+            log.info("Mesh was successfully serialized! Path to file: %s", CommonFiles.localMeshFile.toPath());
+        }
 
         while(true) {
             // prevent script from stopping
