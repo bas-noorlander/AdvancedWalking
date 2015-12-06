@@ -51,6 +51,9 @@ public class NavMeshTest {
             }
 
             @Override
+            public void calculatePolygon(Generator generator) {}
+
+            @Override
             public int hashCode() {
                 return 0;
             }

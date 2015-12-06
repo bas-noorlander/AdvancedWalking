@@ -3,8 +3,9 @@ package scripts.AdvancedWalking.Generator.NavMesh;
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSTile;
-import scripts.AdvancedWalking.Generator.Generator;
 import scripts.AdvancedWalking.Game.Path.Path;
+import scripts.AdvancedWalking.Game.World.RSPolygon;
+import scripts.AdvancedWalking.Generator.Generator;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
 import java.io.Serializable;
@@ -20,11 +21,37 @@ import java.util.Set;
  */
 public abstract class AbstractShape implements Serializable {
 
-    public Set<AbstractShape> adjacentShapes = new LinkedHashSet<>();
+    private Set<AbstractShape> adjacentShapes = new LinkedHashSet<>();
 
-    public transient List<MeshTile> shapeTiles = new ArrayList<>();
+    private RSPolygon polygon;
 
-    public transient int cost = Integer.MAX_VALUE;
+    private transient List<MeshTile> shapeTiles = new ArrayList<>();
+    private transient List<MeshTile> boundaryTiles = new ArrayList<>();
+
+    private transient int cost = Integer.MAX_VALUE;
+
+    public void setBoundaryTiles(List<MeshTile> boundaryTiles) {
+        this.boundaryTiles = boundaryTiles;
+    }
+    public List<MeshTile> getBoundaryTiles() {
+        return this.boundaryTiles;
+    }
+
+    /**
+     * Gets the polygon.
+     * Make sure it has been calculated first.
+     * @return
+     */
+    public RSPolygon getPolygon() {
+        return polygon;
+    }
+
+    /**
+     * Sets the polygon.
+     */
+    public void setPolygon(RSPolygon polygon) {
+        this.polygon = polygon;
+    }
 
     /**
      * Returns how many tiles are in this shape.
@@ -169,9 +196,6 @@ public abstract class AbstractShape implements Serializable {
 
     public abstract MeshTile getClosestTile(Positionable pos);
 
-    @Override
-    public abstract int hashCode();
+    public abstract void calculatePolygon(Generator generator);
 
-    @Override
-    public abstract boolean equals(Object obj);
 }

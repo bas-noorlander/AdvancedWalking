@@ -8,7 +8,9 @@ import scripts.AdvancedWalking.Generator.NavMesh.IShapeFactory;
 import scripts.AdvancedWalking.Generator.NavMesh.NavMesh;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * @author Laniax
@@ -135,11 +137,16 @@ public class Generator {
 
             shape.grow(this, shapeList);
 
-            if (shape.accept())
+            if (shape.accept()) {
+
                 shapeList.add(shape);
-            else {
+            } else {
                 iter.remove();
             }
+        }
+
+        for (AbstractShape shape : shapeList) {
+            shape.calculatePolygon(this);
         }
 
         return shapeList;

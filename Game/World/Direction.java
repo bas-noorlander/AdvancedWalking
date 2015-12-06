@@ -18,23 +18,27 @@ public enum Direction implements Serializable {
 	private int offsetX;
 	private int offsetY;
 
+    private static Direction[] cardinals = new Direction[]{NORTH, EAST, SOUTH, WEST};
+    private static Direction[] ordinals = new Direction[]{NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST};
+
 	public int getOffsetX() {
 		return this.offsetX;
 	}
 	public int getOffsetY() {
 		return this.offsetY;
 	}
+
 	private Direction(int offsetX, int offsetY) {
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
 	}
-	
+
 	public static Direction[] getAllCardinal() {
-		return new Direction[]{NORTH, EAST, SOUTH, WEST};
+		return cardinals;
 	}
 	
 	public static Direction[] getAllOrdinal() {
-		return new Direction[]{NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST};
+		return ordinals;
 	}
 	
 }

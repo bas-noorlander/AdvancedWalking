@@ -3,10 +3,13 @@ package scripts.AdvancedWalking.Generator.NavMesh.Shapes;
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Game.World.Direction;
+import scripts.AdvancedWalking.Game.World.RSPolygon;
 import scripts.AdvancedWalking.Generator.Generator;
 import scripts.AdvancedWalking.Generator.NavMesh.AbstractShape;
+import scripts.AdvancedWalking.Generator.NavMesh.Algorithms.BoundaryFloodFill;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,8 +24,7 @@ public class Polytope extends AbstractShape {
 
         this.startTile = tile;
 
-        shapeTiles.add(tile);
-
+        addTile(tile);
     }
 
     @Override
@@ -33,11 +35,10 @@ public class Polytope extends AbstractShape {
 
     @Override
     public int getSize() {
-        return shapeTiles.size();
+        return getTileCount();
     }
 
     private void growTile(MeshTile tile, Generator generator, Set<AbstractShape> shapeList) {
-
 
         for (Direction cardinal : Direction.getAllCardinal()) {
 
@@ -117,13 +118,36 @@ public class Polytope extends AbstractShape {
         }
     }
 
+    public boolean  isPointInPoly(Positionable pos) {
+        RSTile test = pos.getPosition();
+        int X = test.getX();
+        int Y = test.getY();
+        List<MeshTile> points = getBoundaryTiles();
+        int i;
+        int j;
+        boolean result = false;
+        for (i = 0, j = points.size() - 1; i < points.size(); j = i++) {
+            if ((points.get(i).Y > Y) != (points.get(j).Y > Y) &&
+                    (X < (points.get(j).X - points.get(i).X) * (Y - points.get(i).Y) / (points.get(j).Y-points.get(i).Y) + points.get(i).X)) {
+                result = !result;
+            }
+        }
+        return result;
+    }
+
     @Override
     public boolean contains(Positionable tile) {
-        if (tile instanceof MeshTile)
-            return shapeTiles.contains(tile);
-        else {
-            return shapeTiles.contains(new MeshTile(tile.getPosition()));
+        if (getBoundaryTiles().size() > 0) {
+            return isPointInPoly(tile);
         }
+
+        //todo: new polygon approach
+        if (tile instanceof MeshTile)
+            return getAllTiles().contains(tile);
+        else {
+            return getAllTiles().contains(new MeshTile(tile.getPosition()));
+        }
+//        return false;
     }
 
     @Override
@@ -136,7 +160,7 @@ public class Polytope extends AbstractShape {
 
         MeshTile res = null;
 
-        for (MeshTile t : shapeTiles) {
+        for (MeshTile t : getAllTiles()) {
 
             if (res == null)
                 res = t;
@@ -146,6 +170,56 @@ public class Polytope extends AbstractShape {
         }
 
         return res;
+    }
+
+    @Override
+    public void calculatePolygon(Generator generator) {
+
+        // get(0) is null safe here, since it is called after accept()
+        RSPolygon result = new RSPolygon(getAllTiles().get(0).Plane);
+
+        List<MeshTile> boundaryTiles = BoundaryFloodFill.run(this.getAllTiles(), generator);
+
+        if (boundaryTiles.size() > 0) {
+
+            // Even though we have the boundary tiles now, we should remove points that are not necessary.
+            MeshTile previous = null;
+            List<MeshTile> removeableTiles = new ArrayList<>();
+
+            int verticalCount = 0, horizontalCount = 0;
+
+            for (MeshTile t : boundaryTiles) {
+                if (previous != null) {
+                    if (t.X == previous.X)
+                        horizontalCount++;
+                    else
+                        horizontalCount = 1;
+                    if (t.Y == previous.Y)
+                        verticalCount++;
+                    else
+                        verticalCount = 1;
+                }
+
+                if (verticalCount > 2) {
+                    removeableTiles.add(t);
+                    verticalCount--;
+                } else if (horizontalCount > 2) {
+                    removeableTiles.add(t);
+                    horizontalCount--;
+                }
+
+                previous = t;
+            }
+
+            boundaryTiles.removeAll(removeableTiles);
+            // and finally create the polygon.
+            for (MeshTile t : boundaryTiles) {
+                result.addPoint(t.X, t.Y);
+            }
+        }
+
+        setBoundaryTiles(boundaryTiles);
+        setPolygon(result);
     }
 
     @Override
@@ -166,7 +240,7 @@ public class Polytope extends AbstractShape {
 
             Polytope o = (Polytope) obj;
 
-            return shapeTiles.equals(o.shapeTiles);
+            return getAllTiles().equals(o.getAllTiles());
         }
 
         return false;
