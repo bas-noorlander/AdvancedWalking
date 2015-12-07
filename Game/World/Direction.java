@@ -1,6 +1,8 @@
 package scripts.AdvancedWalking.Game.World;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * @author Laniax
@@ -20,6 +22,8 @@ public enum Direction implements Serializable {
 
     private static Direction[] cardinals = new Direction[]{NORTH, EAST, SOUTH, WEST};
     private static Direction[] ordinals = new Direction[]{NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST};
+	private static Direction[] all = Stream.concat(Arrays.stream(cardinals), Arrays.stream(ordinals)).toArray(Direction[]::new);
+
 
 	public int getOffsetX() {
 		return this.offsetX;
@@ -40,5 +44,7 @@ public enum Direction implements Serializable {
 	public static Direction[] getAllOrdinal() {
 		return ordinals;
 	}
+
+	public static Direction[] getAll() { return all; }
 	
 }

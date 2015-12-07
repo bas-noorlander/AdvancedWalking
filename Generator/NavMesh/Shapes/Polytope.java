@@ -109,7 +109,7 @@ public class Polytope extends AbstractShape {
             preSize = this.getTileCount();
 
             List<MeshTile> polyTiles = this.getAllTiles();
-            for (int i =0; i < polyTiles.size(); i ++) {
+            for (int i = 0; i < polyTiles.size(); i++) {
                 MeshTile t = polyTiles.get(i);
                 growTile(t, generator, shapeList);
             }
@@ -118,7 +118,7 @@ public class Polytope extends AbstractShape {
         }
     }
 
-    public boolean  isPointInPoly(Positionable pos) {
+    public boolean isPointInPoly(Positionable pos) {
         RSTile test = pos.getPosition();
         int X = test.getX();
         int Y = test.getY();
@@ -128,7 +128,7 @@ public class Polytope extends AbstractShape {
         boolean result = false;
         for (i = 0, j = points.size() - 1; i < points.size(); j = i++) {
             if ((points.get(i).Y > Y) != (points.get(j).Y > Y) &&
-                    (X < (points.get(j).X - points.get(i).X) * (Y - points.get(i).Y) / (points.get(j).Y-points.get(i).Y) + points.get(i).X)) {
+                    (X < (points.get(j).X - points.get(i).X) * (Y - points.get(i).Y) / (points.get(j).Y - points.get(i).Y) + points.get(i).X)) {
                 result = !result;
             }
         }
@@ -172,6 +172,123 @@ public class Polytope extends AbstractShape {
         return res;
     }
 
+    private boolean clockwiseOrder(MeshTile a, MeshTile b, MeshTile center) {
+        if (a.X - center.X >= 0 && b.X - center.X < 0)
+            return true;
+
+        if (a.X - center.X < 0 && b.X - center.X >= 0)
+            return false;
+
+        if (a.X - center.X == 0 && b.X - center.X == 0) {
+            if (a.Y - center.Y >= 0 || b.Y - center.Y >= 0)
+                return a.Y > b.Y;
+        }
+
+        // compute the cross product
+        int det = (a.X - center.X) * (b.Y - center.Y) - (b.X - center.X) * (a.Y - center.Y);
+
+        if (det < 0)
+            return true;
+        if (det > 0)
+            return false;
+
+        //a and b are on the same line from the center
+        int d1 = (a.X - center.X) * (a.X - center.X) + (a.Y - center.Y) * (a.Y - center.Y);
+        int d2 = (b.X - center.X) * (b.X - center.X) + (b.Y - center.Y) * (b.Y - center.Y);
+        return d1 > d2;
+    }
+
+//    MeshTile checkTile;
+//            while (list.size() > 0) {
+//
+//                checkTile = list.get(0);
+//
+//                for (Direction dir : Direction.getAll()) {
+//
+//                    RSTile adjTile = checkTile.getAdjacentTile(dir);
+//
+//                    MeshTile chkTile;
+//                    if ((chkTile = generator.findTile(adjTile)) == null)
+//                        chkTile = new MeshTile(adjTile);
+//
+//                    if (list.contains(chkTile)) {
+//                        result.add(chkTile);
+//                        break;
+//                    }
+//
+//                }
+//
+//                list.remove(0);
+//            }
+
+    private List<MeshTile> sortClockwise(List<MeshTile> list, Generator generator) {
+
+        List<MeshTile> result = new ArrayList<>();
+
+        if (list.size() == 1)
+            return result;
+
+        MeshTile startTile = list.get(0);
+        result.add(startTile);
+
+        while (startTile != null) {
+
+            if (list.size() == result.size())
+                break;
+
+            int distance = Integer.MAX_VALUE;
+            MeshTile closest = null;
+
+            for (MeshTile t : list) {
+
+                if (t.equals(startTile))
+                    continue;
+
+                int distanceTo = startTile.distanceTo(t);
+                if (closest == null || distance > distanceTo) {
+                    distance = distanceTo;
+                    closest = t;
+                }
+            }
+
+            result.add(closest);
+            startTile = closest;
+        }
+
+        return result;
+
+//        float averageX = 0;
+//        float averageY = 0;
+//
+//        for (MeshTile t : list) {
+//            averageX += t.X;
+//            averageY += t.Y;
+//        }
+//
+//        final float finalAverageY = averageX / list.size();
+//        final float finalAverageX = averageY / list.size();
+//
+//        Comparator<MeshTile> comparator = new Comparator<MeshTile>() {
+//            @Override
+//            public int compare(MeshTile lhs, MeshTile rhs) {
+//
+//                double o1Angle = Math.atan2(lhs.Y - finalAverageY, lhs.X - finalAverageX);
+//                double o2Angle = Math.atan2(rhs.Y - finalAverageY, rhs.X - finalAverageX);
+//
+//                if (o1Angle < o2Angle)
+//                    return -1;
+//                if (o1Angle > o2Angle)
+//                    return 1;
+//
+//                return 0;
+//            }
+//        };
+//
+//        Collections.sort(list, comparator);
+//
+//        return list;
+    }
+
     @Override
     public void calculatePolygon(Generator generator) {
 
@@ -183,42 +300,44 @@ public class Polytope extends AbstractShape {
         if (boundaryTiles.size() > 0) {
 
             // Even though we have the boundary tiles now, we should remove points that are not necessary.
-            MeshTile previous = null;
-            List<MeshTile> removeableTiles = new ArrayList<>();
-
-            int verticalCount = 0, horizontalCount = 0;
-
-            for (MeshTile t : boundaryTiles) {
-                if (previous != null) {
-                    if (t.X == previous.X)
-                        horizontalCount++;
-                    else
-                        horizontalCount = 1;
-                    if (t.Y == previous.Y)
-                        verticalCount++;
-                    else
-                        verticalCount = 1;
-                }
-
-                if (verticalCount > 2) {
-                    removeableTiles.add(t);
-                    verticalCount--;
-                } else if (horizontalCount > 2) {
-                    removeableTiles.add(t);
-                    horizontalCount--;
-                }
-
-                previous = t;
-            }
-
-            boundaryTiles.removeAll(removeableTiles);
-            // and finally create the polygon.
-            for (MeshTile t : boundaryTiles) {
-                result.addPoint(t.X, t.Y);
-            }
+//            MeshTile previous = null;
+//            List<MeshTile> removeableTiles = new ArrayList<>();
+//
+//            int verticalCount = 0, horizontalCount = 0;
+//
+//            for (MeshTile t : boundaryTiles) {
+//                if (previous != null) {
+//                    if (t.X == previous.X)
+//                        horizontalCount++;
+//                    else
+//                        horizontalCount = 1;
+//                    if (t.Y == previous.Y)
+//                        verticalCount++;
+//                    else
+//                        verticalCount = 1;
+//                }
+//
+//                if (verticalCount > 2) {
+//                    removeableTiles.add(t);
+//                    verticalCount--;
+//                } else if (horizontalCount > 2) {
+//                    removeableTiles.add(t);
+//                    horizontalCount--;
+//                }
+//
+//                previous = t;
+//            }
+//
+//            boundaryTiles.removeAll(removeableTiles);
+//            // and finally create the polygon.
+//            for (MeshTile t : boundaryTiles) {
+//                result.addPoint(t.X, t.Y);
+//            }
         }
 
-        setBoundaryTiles(boundaryTiles);
+        // Sorting the tiles in a clockwise fashion not only allows for easier painting,
+        // it is also required for the point in poly checks and performance increases.
+        setBoundaryTiles(sortClockwise(boundaryTiles, generator));
         setPolygon(result);
     }
 
