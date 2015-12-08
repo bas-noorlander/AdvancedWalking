@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/Laniax/AdvancedWalking.svg)](https://travis-ci.org/Laniax/AdvancedWalking)
-
 # AdvancedWalking
 A navmesh pathfinder/walking library for Tribot.
 
@@ -15,15 +13,15 @@ It's the next generation of pathfinding in osrs botting, written specifically fo
 -  Intelligent bank cache system to see if teleports are available.
 -  Very scripter friendly.
 -  Optional: fallback to webwalking in case something fails.
-- Code is 100% free and open source, including code for the mesh generator and updaters. Most code is unit tested as well(WIP).
+-  Code is 100% free and open source, including code for the mesh generator and updaters. Most code is unit tested as well(WIP).
 
 ##### Installation
-Simply clone this repository into your script and easily keep it up to date using `git pull`.
+Simply clone this repository into your script namespace and zip it together with your script when uploading. This way you can easily keep it up to date using `git pull`.
 
-Alternatively, you can download a zip of the project using the in the menu.
+Alternatively, you can download a zip of the project using the link in the menu.
 
 ##### Usage
-Instead of using your current walking method ie: `WebWalking.walkTo(destination)` you can simply use `AdvancedWalking.travel(destination)`. Note that the `travel` method will try to use teleports/agility shortcuts if they are available. You can also call `AdvancedWalking.walk(destination)` to force walking only. More options are available, see below.
+Instead of using your current walking method ie: `WebWalking.walkTo(destination)` you can simply use `AdvancedWalking.travel(destination)`. Note that the `travel` method will try to use teleports/agility shortcuts if they are available. You can also call `AdvancedWalking.walk(destination)` to force walking only. There are many features available, i'll try to explain some major ones below.
 
 If you only want to find a path to the destination (without going there). You can use `AdvancedWalking.findPath(destination)`. Which will generate a path from the players' position to the destination. Alternatively use `AdvancedWalking.findPath(start, destination)` to use a different starting position. These functions return a `Path` object which contain the tiles and any actions it has to take (like climbing stairs, or optionally teleport). View the `Path` [javadocs]() for more information.
 
