@@ -7,9 +7,9 @@ import scripts.AdvancedWalking.Game.World.RSPolygon;
 import scripts.AdvancedWalking.Generator.Generator;
 import scripts.AdvancedWalking.Generator.NavMesh.AbstractShape;
 import scripts.AdvancedWalking.Generator.NavMesh.Algorithms.BoundaryFloodFill;
+import scripts.AdvancedWalking.Generator.NavMesh.Algorithms.BoundarySort;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -171,32 +171,32 @@ public class Polytope extends AbstractShape {
 
         return res;
     }
-
-    private boolean clockwiseOrder(MeshTile a, MeshTile b, MeshTile center) {
-        if (a.X - center.X >= 0 && b.X - center.X < 0)
-            return true;
-
-        if (a.X - center.X < 0 && b.X - center.X >= 0)
-            return false;
-
-        if (a.X - center.X == 0 && b.X - center.X == 0) {
-            if (a.Y - center.Y >= 0 || b.Y - center.Y >= 0)
-                return a.Y > b.Y;
-        }
-
-        // compute the cross product
-        int det = (a.X - center.X) * (b.Y - center.Y) - (b.X - center.X) * (a.Y - center.Y);
-
-        if (det < 0)
-            return true;
-        if (det > 0)
-            return false;
-
-        //a and b are on the same line from the center
-        int d1 = (a.X - center.X) * (a.X - center.X) + (a.Y - center.Y) * (a.Y - center.Y);
-        int d2 = (b.X - center.X) * (b.X - center.X) + (b.Y - center.Y) * (b.Y - center.Y);
-        return d1 > d2;
-    }
+//
+//    private boolean clockwiseOrder(MeshTile a, MeshTile b, MeshTile center) {
+//        if (a.X - center.X >= 0 && b.X - center.X < 0)
+//            return true;
+//
+//        if (a.X - center.X < 0 && b.X - center.X >= 0)
+//            return false;
+//
+//        if (a.X - center.X == 0 && b.X - center.X == 0) {
+//            if (a.Y - center.Y >= 0 || b.Y - center.Y >= 0)
+//                return a.Y > b.Y;
+//        }
+//
+//        // compute the cross product
+//        int det = (a.X - center.X) * (b.Y - center.Y) - (b.X - center.X) * (a.Y - center.Y);
+//
+//        if (det < 0)
+//            return true;
+//        if (det > 0)
+//            return false;
+//
+//        //a and b are on the same line from the center
+//        int d1 = (a.X - center.X) * (a.X - center.X) + (a.Y - center.Y) * (a.Y - center.Y);
+//        int d2 = (b.X - center.X) * (b.X - center.X) + (b.Y - center.Y) * (b.Y - center.Y);
+//        return d1 > d2;
+//    }
 
 //    MeshTile checkTile;
 //            while (list.size() > 0) {
@@ -221,42 +221,72 @@ public class Polytope extends AbstractShape {
 //                list.remove(0);
 //            }
 
-    private List<MeshTile> sortClockwise(List<MeshTile> list, Generator generator) {
+//    private int findNearestIndex(MeshTile meshTile, List<MeshTile> result) {
+//
+//        double nearestDistSquared = Double.POSITIVE_INFINITY;
+//        int nearestIndex = 0;
+//        for (int i = 0; i < result.size(); i++) {
+//            MeshTile t = result.get(i);
+//            double distsq = (meshTile.X - t.X) * (meshTile.X - t.X)
+//                    + (meshTile.Y - t.Y) * (meshTile.Y - t.Y);
+//            if (distsq < nearestDistSquared) {
+//                nearestDistSquared = distsq;
+//                nearestIndex = i;
+//            }
+//        }
+//        return nearestIndex;
+//    }
 
-        List<MeshTile> result = new ArrayList<>();
+//    private List<MeshTile> sortClockwise(List<MeshTile> list, Generator generator) {
+//
+//        List<MeshTile> result = new ArrayList<>();
+//
+//        result.add(list.remove(0));
+//
+//        while (!list.isEmpty()) {
+//
+//            int nearestIndex = findNearestIndex(list.get(list.size() - 1), list);
+//
+//            result.add(list.remove(nearestIndex));
+//        }
+//
+//
+//        return result;
 
-        if (list.size() == 1)
-            return result;
-
-        MeshTile startTile = list.get(0);
-        result.add(startTile);
-
-        while (startTile != null) {
-
-            if (list.size() == result.size())
-                break;
-
-            int distance = Integer.MAX_VALUE;
-            MeshTile closest = null;
-
-            for (MeshTile t : list) {
-
-                if (t.equals(startTile))
-                    continue;
-
-                int distanceTo = startTile.distanceTo(t);
-                if (closest == null || distance > distanceTo) {
-                    distance = distanceTo;
-                    closest = t;
-                }
-            }
-
-            result.add(closest);
-            startTile = closest;
-        }
-
-        return result;
-
+//        List<MeshTile> result = new ArrayList<>();
+//
+//        if (list.size() == 1)
+//            return result;
+//
+//        MeshTile startTile = list.get(0);
+//        result.add(startTile);
+//
+//        while (startTile != null) {
+//
+//            if (list.size() == result.size())
+//                break;
+//
+//            int distance = Integer.MAX_VALUE;
+//            MeshTile closest = null;
+//
+//            for (MeshTile t : list) {
+//
+//                if (t.equals(startTile))
+//                    continue;
+//
+//                int distanceTo = startTile.distanceTo(t);
+//                if (closest == null || distance > distanceTo) {
+//                    distance = distanceTo;
+//                    closest = t;
+//                }
+//            }
+//
+//            result.add(closest);
+//            startTile = closest;
+//        }
+//
+//        return result;
+//
 //        float averageX = 0;
 //        float averageY = 0;
 //
@@ -287,7 +317,7 @@ public class Polytope extends AbstractShape {
 //        Collections.sort(list, comparator);
 //
 //        return list;
-    }
+//    }
 
     @Override
     public void calculatePolygon(Generator generator) {
@@ -335,9 +365,11 @@ public class Polytope extends AbstractShape {
 //            }
         }
 
-        // Sorting the tiles in a clockwise fashion not only allows for easier painting,
-        // it is also required for the point in poly checks and performance increases.
-        setBoundaryTiles(sortClockwise(boundaryTiles, generator));
+        // Sorting the tiles not only allows for easier painting,
+        // it is also required for the point in poly checks and general performance increases.
+        boundaryTiles = BoundarySort.run(boundaryTiles, generator);
+
+        setBoundaryTiles(boundaryTiles);
         setPolygon(result);
     }
 
