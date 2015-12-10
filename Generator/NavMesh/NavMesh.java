@@ -4,6 +4,7 @@ import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Game.Path.Path;
+import scripts.AdvancedWalking.Game.Path.Steps.TileStep;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -122,7 +123,7 @@ public class NavMesh implements Serializable {
         if (start.equals(target)) {
             RSTile tar = destination.getPosition();
             if (tar != null) {
-                path.appendStep(tar);
+                path.append(new TileStep(tar));
             }
             return path;
         }
@@ -152,7 +153,7 @@ public class NavMesh implements Serializable {
             // append destination to result.
             RSTile tar = destination.getPosition();
             if (tar != null) {
-                path.appendStep(tar);
+                path.append(new TileStep(tar));
             }
 
             return path;

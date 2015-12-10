@@ -13,7 +13,7 @@ public class WebWalker implements IWalker{
     public boolean walk(Path path) {
 
         if (path.getLength() > 0)
-            return WebWalking.walkTo(path.getLast());
+            return WebWalking.walkTo(path.getLast().getDestination());
 
         return false;
     }

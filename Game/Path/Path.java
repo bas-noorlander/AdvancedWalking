@@ -1,18 +1,15 @@
 package scripts.AdvancedWalking.Game.Path;
 
-import org.tribot.api.interfaces.Positionable;
-import org.tribot.api2007.types.RSTile;
-
 /**
  * @author Laniax
  */
 public class Path {
 
-    public void appendStep(Positionable tar) {
+    public void append(AbstractStep step) {
 
     }
 
-    public RSTile getLast() {
+    public AbstractStep getLast() {
         return null;
     }
 
@@ -20,7 +17,7 @@ public class Path {
         return 0;
     }
 
-    public Positionable getStep(int i) {
+    public AbstractStep getStep(int i) {
         return null;
     }
 }

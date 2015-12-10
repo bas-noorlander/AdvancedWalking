@@ -4,6 +4,7 @@ import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.Player;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Game.Path.Path;
+import scripts.AdvancedWalking.Game.Path.Steps.TileStep;
 import scripts.AdvancedWalking.Game.World.RSPolygon;
 import scripts.AdvancedWalking.Generator.Generator;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
@@ -176,8 +177,8 @@ public abstract class AbstractShape implements Serializable {
 
         closedList.add(this);
 
-        RSTile from = path.getLength() == 0 ? Player.getPosition() : path.getLast();
-        path.appendStep(best.getClosestTile(from)); //TODO: redesign path
+        RSTile from = path.getLength() == 0 ? Player.getPosition() : path.getLast().getDestination();
+        path.append(new TileStep(best.getClosestTile(from))); //TODO: add more path steps
 
         return best.calculateCheapest(target, path, closedList);
     }

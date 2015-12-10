@@ -20,7 +20,7 @@ public class AdvancedWalker implements IWalker {
 
         for (int i = 0; i < path.getLength(); i++) {
 
-            if (!Walking.blindWalkTo(path.getStep(i))){
+            if (!Walking.blindWalkTo(path.getStep(i).getDestination())){
                 if (i > 0)
                     i--;
                 continue;

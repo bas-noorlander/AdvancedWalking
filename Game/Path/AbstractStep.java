@@ -33,4 +33,8 @@ public abstract class AbstractStep {
 
 	protected abstract boolean run();
 
+	public RSTile getDestination() {
+		return this.destination();
+	}
+
 }

@@ -2,6 +2,7 @@ package scripts.AdvancedWalking.Generator;
 
 import org.tribot.api.General;
 import org.tribot.api2007.Login;
+import org.tribot.api2007.Player;
 import org.tribot.api2007.Projection;
 import org.tribot.script.Script;
 import org.tribot.script.ScriptManifest;
@@ -57,6 +58,8 @@ public class SampleGeneratorScript extends Script implements Painting, MouseActi
             log.info("Mesh was successfully serialized! Path to file: %s", CommonFiles.localMeshFile.toPath());
         }
 
+//        log.info("meshtile X:%d Y:%d is %d tiles away from  X:%d Y:%d", 2961, 3348, new MeshTile(new RSTile(2965, 3352, 0)).distanceTo(new RSTile(2961, 3348)), 2965, 3352);
+
         while(true) {
             // prevent script from stopping
         }
@@ -83,6 +86,9 @@ public class SampleGeneratorScript extends Script implements Painting, MouseActi
 
             for (AbstractShape shape : mesh.getAllShapes()) {
 
+                if (!shape.contains(Player.getPosition()))
+                    continue;
+
                 g.setColor(blackTransparent);
                 for(MeshTile t: shape.getAllTiles()) {
                     Point tilePoint = Projection.tileToScreen(t,0);
@@ -94,15 +100,52 @@ public class SampleGeneratorScript extends Script implements Painting, MouseActi
                 }
 
                 g.setColor(Color.RED);
-                for (MeshTile t : shape.getBoundaryTiles())
-                {
+
+//                Point previous = null, first = null;
+//                Point previousMinimap = null, firstMinimap = null;
+
+                int i = 0;
+                for (MeshTile t : shape.getBoundaryTiles()) {
+
                     Point tilePoint = Projection.tileToScreen(t,0);
 
                     if (Projection.isInViewport(tilePoint)) {
                         Polygon drawPoly = Projection.getTileBoundsPoly(t, 0);
                         g.fillPolygon(drawPoly);
+                        g.setColor(Color.WHITE);
+                        g.drawString(i+"", tilePoint.x, tilePoint.y);
                     }
+                    g.setColor(Color.RED);
+
+                    Point minimap = Projection.tileToMinimap(t);
+                    if (minimap != null && Projection.isInMinimap(minimap)) {
+                        g.fillOval(minimap.x, minimap.y, 3,3);
+                    }
+                    i++;
+
+//                    if (previous != null && previousMinimap != null) {
+//                        if (Projection.isInViewport(tilePoint))
+//                            g.drawLine(previous.x, previous.y, tilePoint.x, tilePoint.y);
+//
+//                        if (Projection.isInMinimap(minimap))
+//                            g.drawLine(previousMinimap.x, previousMinimap.y, minimap.x, minimap.y);
+//                    }
+//                    if (first == null) {
+//                        first = tilePoint;
+//                        firstMinimap = minimap;
+//                    }
+//
+//                    previous = tilePoint;
+//                    previousMinimap = minimap;
                 }
+//
+//                if (Projection.isInViewport(previous))
+//                    g.drawLine(previous.x, previous.y, first.x, first.y);
+//
+//                if (Projection.isInMinimap(previousMinimap))
+//                    g.drawLine(previousMinimap.x, previousMinimap.y, firstMinimap.x, firstMinimap.y);
+
+                break;
             }
         }
     }

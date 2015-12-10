@@ -49,6 +49,10 @@ public class MeshTile implements Positionable {
 
     }
 
+    public RSObject[] getObjects() {
+        return this.objects;
+    }
+
     /**
      * Gets the tile that we can grow into.
      *
