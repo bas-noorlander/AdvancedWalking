@@ -23,12 +23,12 @@ Alternatively, you can download a zip of the project using the link in the menu.
 ##### Usage
 Instead of using your current walking method ie: `WebWalking.walkTo(destination)` you can simply use `AdvancedWalking.travel(destination)`. Note that the `travel` method will try to use teleports/agility shortcuts if they are available. You can also call `AdvancedWalking.walk(destination)` to force walking only. There are many features available, i'll try to explain some major ones below.
 
-If you only want to find a path to the destination (without going there). You can use `AdvancedWalking.findPath(destination)`. Which will generate a path from the players' position to the destination. Alternatively use `AdvancedWalking.findPath(start, destination)` to use a different starting position. These functions return a `Path` object which contain the tiles and any actions it has to take (like climbing stairs, or optionally teleport). View the `Path` [javadocs]() for more information.
+If you only want to find a path to the destination (without going there). You can use `AdvancedWalking.findPath(destination)`. Which will generate a path from the players' position to the destination. Alternatively use `AdvancedWalking.findPath(start, destination)` to use a different starting position. These functions return a `Path` object which contain the tiles and any actions it has to take (like climbing stairs, or optionally teleport). View the `Path` [javadocs](https://laniax.github.io/AdvancedWalking/scripts/AdvancedWalking/Game/Path/Path.html) for more information.
 
 Note that the first time that a method is called, be it #travel() or #walk() (or any other). AdvancedWalking will set everything up and check for updates first. This could be undesired and you might want to do this when your script starts instead. You can call `AdvancedWalking.prepare()` to do so.
 
 ##### Code features
-Full javadocs are available [here]().
+Full javadocs are available [here](https://laniax.github.io/AdvancedWalking/).
 
 
 ##### Advanced usage
