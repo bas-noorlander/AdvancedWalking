@@ -6,14 +6,12 @@ import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Game.Path.Path;
 import scripts.AdvancedWalking.Game.Path.Steps.TileStep;
 import scripts.AdvancedWalking.Game.World.RSPolygon;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
 import scripts.AdvancedWalking.Generator.Generator;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents a fragment of the {@link NavMesh}, this could be a polygon, rectangle or anything you can set your mind to :-)
@@ -23,6 +21,7 @@ import java.util.Set;
 public abstract class AbstractShape implements Serializable {
 
     private Set<AbstractShape> adjacentShapes = new LinkedHashSet<>();
+    private Set<ITeleport> teleports = new HashSet<>();
 
     private RSPolygon polygon;
 
@@ -68,6 +67,33 @@ public abstract class AbstractShape implements Serializable {
      */
     public List<MeshTile> getAllTiles() {
         return shapeTiles;
+    }
+
+    /**
+     * Gets all the teleports inside this shape, this will usually be a agility shortcut or stair.
+     * But if the player starts on this shape, it might also be a spell/item teleport.
+     * @return
+     */
+    public Set<ITeleport> getTeleports() {
+        return teleports;
+    }
+
+    /**
+     * Adds a teleport to this shape.
+     * @param teleport
+     * @return
+     */
+    public boolean addTeleport(ITeleport teleport) {
+        return teleports.add(teleport);
+    }
+
+    /**
+     * Removes a teleport to this shape.
+     * @param teleport
+     * @return
+     */
+    public boolean removeTeleport(ITeleport teleport) {
+        return teleports.remove(teleport);
     }
 
     /**
@@ -162,6 +188,8 @@ public abstract class AbstractShape implements Serializable {
         // This shape is not linked to anything so we cannot travel anywhere.
         if (getAdjacentCount() == 0)
             return false;
+
+        //todo: check teleports.
 
         AbstractShape best = null;
         for (AbstractShape link : adjacentShapes) {

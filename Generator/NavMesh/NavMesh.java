@@ -2,9 +2,14 @@ package scripts.AdvancedWalking.Generator.NavMesh;
 
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
+import scripts.AdvancedWalking.Core.Collections.Pair;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Game.Path.Path;
 import scripts.AdvancedWalking.Game.Path.Steps.TileStep;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractItemTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractMagicTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ItemTeleportManager;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleports.SpellTeleportManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,6 +18,7 @@ import java.util.Set;
 
 /**
  * A collection of shapes that together form a mesh.
+ *
  * @author Laniax
  */
 public class NavMesh implements Serializable {
@@ -25,6 +31,7 @@ public class NavMesh implements Serializable {
 
     /**
      * Create a new NavMesh object consisting of all the shapes in the list.
+     *
      * @param shapes
      */
     public NavMesh(Set<AbstractShape> shapes) {
@@ -33,6 +40,7 @@ public class NavMesh implements Serializable {
 
     /**
      * Gets the number of shapes in the mesh.
+     *
      * @return
      */
     public int getShapeCount() {
@@ -41,6 +49,7 @@ public class NavMesh implements Serializable {
 
     /**
      * Gets all the shapes in the mesh.
+     *
      * @return
      */
     public Set<AbstractShape> getAllShapes() {
@@ -49,6 +58,7 @@ public class NavMesh implements Serializable {
 
     /**
      * Add a single shape to the list.
+     *
      * @param shape
      * @return true if succesfully added
      */
@@ -58,6 +68,7 @@ public class NavMesh implements Serializable {
 
     /**
      * Finds the shape that contains the given position.
+     *
      * @param pos
      * @return the shape that contains it, or null if not found.
      */
@@ -73,6 +84,7 @@ public class NavMesh implements Serializable {
 
     /**
      * Returns a path from the start to the target positions.
+     *
      * @param start
      * @param target
      * @return a path object, empty if no path was found.
@@ -85,6 +97,7 @@ public class NavMesh implements Serializable {
 
     /**
      * Returns a path from the start to the target positions.
+     *
      * @param start
      * @param target
      * @param useTeleports
@@ -96,7 +109,7 @@ public class NavMesh implements Serializable {
         Path path = new Path();
 
         if (start == null || target == null) {
-            log.info("Cannot generate a path, start or target positions are null.");
+            log.error("Cannot generate a path, start or target positions are null.");
             return path;
         }
 
@@ -104,12 +117,12 @@ public class NavMesh implements Serializable {
         AbstractShape targetShape = findShape(target);
 
         if (startShape == null) {
-            log.info("Sorry! You are trying to walk FROM a position not yet mapped with a navmesh generator.");
+            log.error("Sorry! You are trying to walk FROM a position not yet mapped with a navmesh generator.");
             return path;
         }
 
         if (targetShape == null) {
-            log.info("Sorry! You are trying to walk TO a position not yet mapped with a navmesh generator.");
+            log.error("Sorry! You are trying to walk TO a position not yet mapped with a navmesh generator.");
             return path;
         }
 
@@ -117,7 +130,69 @@ public class NavMesh implements Serializable {
 
     }
 
-    private Path findPath(final Path path, final AbstractShape start, final AbstractShape target, final Positionable origin, final Positionable destination, final boolean useTeleports, final boolean useShortcuts ) {
+    private AbstractItemTeleport processItemTeleports(AbstractShape start, Positionable origin, Positionable destination) {
+
+        // Get the best and relevant item teleport that we can do, and include it in the cost calculations.
+        Pair<AbstractItemTeleport, Integer> itemTeleport = ItemTeleportManager.getBestTeleport(origin, destination);
+
+        if (itemTeleport != null) {
+
+            log.debug("The best item teleport that we are able to do is: %s", itemTeleport.getKey().name());
+
+            RSTile destinationTile = itemTeleport.getKey().getDestinationForDialog(itemTeleport.getValue());
+
+            if (destinationTile != null) {
+
+                AbstractShape destinationShape = findShape(destinationTile);
+
+                if (destinationShape != null) {
+                    // finally, add the teleport to the shape we are currently on.
+                    //todo: dialog option solution
+                    start.addTeleport(itemTeleport.getKey());
+                    return itemTeleport.getKey();
+                } else {
+                    // Honestly, this is something we can avoid, simply dont script teleports if the mesh doesn't have that area data.
+                    // Thats why i wont write a failsafe to use the 2nd best teleport etc.
+                    log.error("Wanted to use %d, but the destination area of the teleport is not mapped yet.", itemTeleport.getKey().name());
+                }
+            }
+        }
+        return null;
+    }
+
+    private AbstractMagicTeleport processSpellTeleports(AbstractShape start, Positionable origin, Positionable destination) {
+
+        // Get the best and relevant spell teleport that we can do, and include it in the cost calculations.
+        AbstractMagicTeleport spellTeleport = SpellTeleportManager.getBestTeleport(origin, destination);
+
+        if (spellTeleport != null) {
+
+            log.debug("The best spell teleport that we are able to do is: %s", spellTeleport.name());
+
+            RSTile destinationTile = spellTeleport.getDestination();
+
+            if (destinationTile != null) {
+
+                AbstractShape destinationShape = findShape(destinationTile);
+
+                if (destinationShape != null) {
+                    // finally, add the teleport to the shape we are currently on.
+                    //todo: runes or teletab without extra checks?
+                    start.addTeleport(spellTeleport);
+                    return spellTeleport;
+                } else {
+                    // Honestly, this is something we can avoid, simply dont script teleports if the mesh doesn't have that area data.
+                    // Thats why i wont write a failsafe to use the 2nd best teleport etc.
+                    log.error("Wanted to use %d, but the destination area of the teleport is not mapped yet.", spellTeleport.name());
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    private Path findPath(final Path path, final AbstractShape start, final AbstractShape target, final Positionable origin, final Positionable destination, final boolean useTeleports, final boolean useShortcuts) {
 
         // Check if we are already inside the same shape, if so, we can walk without obstacles.
         if (start.equals(target)) {
@@ -128,25 +203,33 @@ public class NavMesh implements Serializable {
             return path;
         }
 
-        //todo: check teleports
-
         for (AbstractShape shape : shapes) {
             shape.clearCost();
+        }
+
+        boolean failed = false;
+
+        AbstractItemTeleport item = null;
+        AbstractMagicTeleport spell = null;
+
+        if (useTeleports) {
+            item = processItemTeleports(start, origin, destination);
+            spell = processSpellTeleports(start, origin, destination);
         }
 
         target.calculateCost(origin, destination, 0);
 
         if (start.getCost() == Integer.MAX_VALUE) {
-            log.info("Cannot generate path, target shape wasn't reached with cost calculations.");
-            return path;
+            log.error("Cannot generate path, target shape wasn't reached with cost calculations.");
+            failed = true;
         }
 
-        if (target.getCost() == Integer.MAX_VALUE) {
-            log.info("Cannot generate path, start shape wasn't reached with cost calculations.");
-            return path;
+        if (!failed && target.getCost() == Integer.MAX_VALUE) {
+            log.error("Cannot generate path, start shape wasn't reached with cost calculations.");
+            failed = true;
         }
 
-        if (start.calculateCheapest(target, path, new ArrayList<>())) {
+        if (!failed && start.calculateCheapest(target, path, new ArrayList<>())) {
 
             // found a path!
 
@@ -155,12 +238,15 @@ public class NavMesh implements Serializable {
             if (tar != null) {
                 path.append(new TileStep(tar));
             }
-
-            return path;
-
+        } else {
+            log.warn("No path was found..");
         }
 
-        log.info("No path was found..");
+        if (item != null)
+            start.removeTeleport(item);
+
+        if (spell != null)
+            start.removeTeleport(spell);
 
         return path;
     }

@@ -18,7 +18,7 @@ public class VarrockTeleport extends AbstractMagicTeleport {
             new Pair<>(Rune.FIRE, 1)
     );
 
-    private final RSTile _destination = new RSTile(3212, 3426,0);
+    private final RSTile _destination = new RSTile(3212, 3426, 0);
 
     @Override
     public RuneSet getRunes() {
@@ -52,5 +52,10 @@ public class VarrockTeleport extends AbstractMagicTeleport {
         // runes are checked elsewhere.
 
         return true;
+    }
+
+    @Override
+    public String name() {
+        return "Varrock Teleport";
     }
 }

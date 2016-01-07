@@ -53,4 +53,10 @@ public class LumbridgeTeleport extends AbstractMagicTeleport {
 
         return true;
     }
+
+    @Override
+    public String name() {
+        return "Lumbridge Teleport";
+    }
+
 }

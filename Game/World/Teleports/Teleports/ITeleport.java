@@ -7,4 +7,6 @@ public interface ITeleport {
 
     boolean accept();
 
+    String name();
+
 }
