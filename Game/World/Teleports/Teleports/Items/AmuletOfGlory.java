@@ -1,6 +1,5 @@
 package scripts.AdvancedWalking.Game.World.Teleports.Teleports.Items;
 
-import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Collections.Pair;
 import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractItemTeleport;

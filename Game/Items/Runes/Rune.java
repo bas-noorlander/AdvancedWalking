@@ -5,28 +5,28 @@ package scripts.AdvancedWalking.Game.Items.Runes;
  */
 public enum Rune {
 
-    AIR(0),
-    MIND(0),
-    WATER(0),
-    EARTH(0),
-    FIRE(0),
-    BODY(0),
-    COSMIC(0),
-    CHAOS(0),
-    NATURE(0),
-    LAW(0),
-    DEATH(0),
+    AIR(556),
+    MIND(558),
+    WATER(555),
+    EARTH(557),
+    FIRE(554),
+    BODY(559),
+    COSMIC(564),
+    CHAOS(562),
+    NATURE(561),
+    LAW(563),
+    DEATH(560),
 
-    ASTRAL(0),
-    BLOOD(0),
-    SOUL(0),
+    ASTRAL(9075),
+    BLOOD(565),
+    SOUL(566),
 
-    DUST(0),
-    LAVA(0),
-    MIST(0),
-    MUD(0),
-    SMOKE(0),
-    STEAM(0);
+    DUST(4696),
+    LAVA(4699),
+    MIST(4695),
+    MUD(4698),
+    SMOKE(4697),
+    STEAM(4694);
 
     private int _id;
 
