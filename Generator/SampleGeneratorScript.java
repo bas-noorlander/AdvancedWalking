@@ -45,9 +45,13 @@ public class SampleGeneratorScript extends Script implements Painting, MouseActi
             collector.collect();
         }
 
+        log.info("Collected %d tiles!", collector.getTiles().size());
+
         // Create a generator, defining the shape we want to generate the navmesh with
         // currently only the polytope (polygons) is written, but it could also become a rectangular/circled/rainbow mesh if you want :-)
         Generator generator = new Generator(new PolytopeFactory(), collector.getTiles());
+
+        log.info("Initialized a polytope mesh generator.");
 
         // Let the generator do its work and get a fully able NavMesh object in return!
         mesh = generator.run();

@@ -42,49 +42,63 @@ public class BoundarySort {
 
     public static List<MeshTile> run(List<MeshTile> tiles, Generator generator) {
 
-        final int length = tiles.size();
+        tiles.sort((o1, o2) -> {
 
-        List<MeshTile> result = new ArrayList<>(length);
-
-        final Comparator<SortSegment> comparator = new Comparator<SortSegment>() {
-            @Override
-            public int compare(SortSegment o1, SortSegment o2) {
-                return Double.compare(o1.length / o1.size, o2.length / o2.size);
-            }
-        };
-
-        PriorityQueue<SortSegment> queue = new PriorityQueue<>(length, comparator);
-        queue.offer(new SortSegment(null, tiles.get(0)));
-
-        while (!queue.isEmpty()) {
-
-            SortSegment segment = queue.poll();
-
-            if (segment.size == length) {
-                // result found!
-                while(segment != null) {
-                    result.add(0, segment.head);
-                    segment = segment.prefix;
-                }
-                break;
+            if (o1.isAdjacentTile(o2)) {
+                return -1;
             }
 
-            for (MeshTile t : tiles) {
+            if (o1.distanceToDouble(o2) == 1)
+                return -1;
+            else
+                return 0;
+        });
 
-                boolean found = false;
-                for (SortSegment check = segment; check != null; check = check.prefix) {
-                    if (t.equals(check.head)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (found)
-                    continue;
+        return tiles;
 
-                queue.offer(new SortSegment(segment, t));
-            }
-        }
-
-        return result;
+//        final int length = tiles.size();
+//
+//        List<MeshTile> result = new ArrayList<>(length);
+//
+//        final Comparator<SortSegment> comparator = new Comparator<SortSegment>() {
+//            @Override
+//            public int compare(SortSegment o1, SortSegment o2) {
+//                return Double.compare(o1.length / o1.size, o2.length / o2.size);
+//            }
+//        };
+//
+//        PriorityQueue<SortSegment> queue = new PriorityQueue<>(length, comparator);
+//        queue.offer(new SortSegment(null, tiles.get(0)));
+//
+//        while (!queue.isEmpty()) {
+//
+//            SortSegment segment = queue.poll();
+//
+//            if (segment.size == length) {
+//                // result found!
+//                while(segment != null) {
+//                    result.add(0, segment.head);
+//                    segment = segment.prefix;
+//                }
+//                break;
+//            }
+//
+//            for (MeshTile t : tiles) {
+//
+//                boolean found = false;
+//                for (SortSegment check = segment; check != null; check = check.prefix) {
+//                    if (t.equals(check.head)) {
+//                        found = true;
+//                        break;
+//                    }
+//                }
+//                if (found)
+//                    continue;
+//
+//                queue.offer(new SortSegment(segment, t));
+//            }
+//        }
+//
+//        return result;
     }
 }

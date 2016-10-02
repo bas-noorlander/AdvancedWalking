@@ -27,8 +27,8 @@ public class BoundaryFloodFill {
         if (tiles.size() < 1)
             return result;
 
-        // Add a tile from the list here, and we will expand from there.
-        tileStack.add(tiles.get(0));
+        // Add all the tiles from this shape to the list.
+        tileStack.addAll(tiles);
 
         while (!tileStack.isEmpty()) {
 
@@ -50,7 +50,7 @@ public class BoundaryFloodFill {
 
                 if (tiles.contains(chkTile)) {
                     // this adjacent tile is inside the shape
-                    tileStack.push(chkTile);
+                 //   tileStack.push(chkTile);
                 } else {
                     // this adjacent is NOT in our shape, so the current tile is a boundary tile.
                     isBoundary = true;

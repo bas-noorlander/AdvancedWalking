@@ -16,9 +16,9 @@ import java.util.Set;
  */
 public class RegionCollector implements ITileCollector {
 
-    ArrayList<RSTile> scannedList = new ArrayList<>();
+    private ArrayList<RSTile> scannedList = new ArrayList<>();
 
-    Set<MeshTile> result = new HashSet<>();
+    private Set<MeshTile> result = new HashSet<>();
 
     /**
      * Removes all the tiles from the closed list so they can be scanned again.

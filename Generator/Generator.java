@@ -126,7 +126,9 @@ public class Generator {
         Set<AbstractShape> shapeList = new HashSet<>();
 
         Iterator<MeshTile> iter = validTiles.iterator();
+
         while (iter.hasNext()) {
+
             MeshTile tile = iter.next();
 
             // Check if this tile is already in another shape
@@ -138,12 +140,14 @@ public class Generator {
             shape.grow(this, shapeList);
 
             if (shape.accept()) {
-
                 shapeList.add(shape);
             } else {
                 iter.remove();
             }
         }
+
+        log.info("Created %d shapes.", shapeList.size());
+        log.info("Calculating polytopes..", shapeList.size());
 
         for (AbstractShape shape : shapeList) {
             shape.calculatePolygon(this);

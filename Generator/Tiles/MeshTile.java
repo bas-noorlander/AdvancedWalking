@@ -49,6 +49,23 @@ public class MeshTile implements Positionable {
 
     }
 
+    /**
+     * Checks if the given tile is adjacent to this one.
+     * @param pos
+     * @return
+     */
+    public boolean isAdjacentTile(Positionable pos) {
+
+        for (Direction dir : Direction.getAllOrdinal())
+        {
+            RSTile adjPos = getAdjacentTile(dir);
+            if (adjPos != null && adjPos.equals(pos))
+                return true;
+        }
+
+        return false;
+    }
+
     public RSObject[] getObjects() {
         return this.objects;
     }
@@ -194,6 +211,22 @@ public class MeshTile implements Positionable {
         }
 
         return Integer.MAX_VALUE;
+    }
+
+    /**
+     * A diagonal distanceTo
+     * @param pos
+     * @return
+     */
+    public double distanceToDouble(Positionable pos) {
+
+        RSTile tile = pos.getPosition();
+
+        if (tile != null) {
+            return tile.distanceToDouble(pos);
+        }
+
+        return Double.MIN_VALUE;
     }
 
     @Override
