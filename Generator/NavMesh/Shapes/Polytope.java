@@ -10,6 +10,7 @@ import scripts.AdvancedWalking.Generator.NavMesh.Algorithms.BoundaryFloodFill;
 import scripts.AdvancedWalking.Generator.NavMesh.Algorithms.BoundarySort;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -319,6 +320,48 @@ public class Polytope extends AbstractShape {
 //        return list;
 //    }
 
+    private List<MeshTile> removeUnneededBoundaryTiles(List<MeshTile> boundaryTiles) {
+
+        MeshTile previous = null;
+        List<MeshTile> removeableTiles = new ArrayList<>();
+
+        List<MeshTile> verticals = new ArrayList<>();
+        List<MeshTile> horizontals = new ArrayList<>();
+
+        for (MeshTile t : boundaryTiles) {
+
+            if (previous != null) {
+
+                if (t.X == previous.X) {
+                    horizontals.add(t);
+                } else {
+                    horizontals.clear();
+                }
+
+                if (t.Y == previous.Y) {
+                    verticals.add(t);
+                } else {
+                    verticals.clear();
+                }
+            }
+
+            if (verticals.size() > 2) {
+                removeableTiles.addAll(verticals);
+                removeableTiles.remove(verticals.get(0));
+                removeableTiles.remove(verticals.get(verticals.size() -1));
+            } else if (horizontals.size() > 2) {
+                removeableTiles.addAll(horizontals);
+                removeableTiles.remove(horizontals.get(0));
+                removeableTiles.remove(horizontals.get(horizontals.size() -1));
+            }
+
+            previous = t;
+        }
+
+        boundaryTiles.removeAll(removeableTiles);
+        return removeableTiles;
+    }
+
     @Override
     public void calculatePolygon(Generator generator) {
 
@@ -329,45 +372,21 @@ public class Polytope extends AbstractShape {
 
         if (boundaryTiles.size() > 0) {
 
-            // Even though we have the boundary tiles now, we should remove points that are not necessary.
-//            MeshTile previous = null;
-//            List<MeshTile> removeableTiles = new ArrayList<>();
-//
-//            int verticalCount = 0, horizontalCount = 0;
-//
-//            for (MeshTile t : boundaryTiles) {
-//                if (previous != null) {
-//                    if (t.X == previous.X)
-//                        horizontalCount++;
-//                    else
-//                        horizontalCount = 1;
-//                    if (t.Y == previous.Y)
-//                        verticalCount++;
-//                    else
-//                        verticalCount = 1;
-//                }
-//
-//                if (verticalCount > 2) {
-//                    removeableTiles.add(t);
-//                    verticalCount--;
-//                } else if (horizontalCount > 2) {
-//                    removeableTiles.add(t);
-//                    horizontalCount--;
-//                }
-//
-//                previous = t;
-//            }
-//
-//            boundaryTiles.removeAll(removeableTiles);
-//            // and finally create the polygon.
-//            for (MeshTile t : boundaryTiles) {
-//                result.addPoint(t.X, t.Y);
-//            }
-        }
+            // Even though we have the boundary tiles now, we should remove points that are not necessary..
+            // For that, we first have to sort them.
 
-        // Sorting the tiles not only allows for easier painting,
-        // it is also required for the point in poly checks and general performance increases.
-        boundaryTiles = BoundarySort.run(boundaryTiles, generator);
+            // Sorting the tiles not only allows for easier painting,
+            // it is also required for the point in poly checks and general performance increases.
+            boundaryTiles = BoundarySort.run(boundaryTiles, generator);
+
+            // Now we can remove unneeded points.
+            boundaryTiles = removeUnneededBoundaryTiles(boundaryTiles);
+
+            // and finally create the polygon.
+            for (MeshTile t : boundaryTiles) {
+                result.addPoint(t.X, t.Y);
+            }
+        }
 
         setBoundaryTiles(boundaryTiles);
         setPolygon(result);
