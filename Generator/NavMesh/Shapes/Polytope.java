@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class Polytope extends AbstractShape {
 
-    MeshTile startTile;
+    private MeshTile startTile;
 
     public Polytope(MeshTile tile) {
 
@@ -119,7 +119,7 @@ public class Polytope extends AbstractShape {
         }
     }
 
-    public boolean isPointInPoly(Positionable pos) {
+    private boolean isPointInPoly(Positionable pos) {
         RSTile test = pos.getPosition();
         int X = test.getX();
         int Y = test.getY();
@@ -148,7 +148,6 @@ public class Polytope extends AbstractShape {
         else {
             return getAllTiles().contains(new MeshTile(tile.getPosition()));
         }
-//        return false;
     }
 
     @Override
@@ -172,153 +171,6 @@ public class Polytope extends AbstractShape {
 
         return res;
     }
-//
-//    private boolean clockwiseOrder(MeshTile a, MeshTile b, MeshTile center) {
-//        if (a.X - center.X >= 0 && b.X - center.X < 0)
-//            return true;
-//
-//        if (a.X - center.X < 0 && b.X - center.X >= 0)
-//            return false;
-//
-//        if (a.X - center.X == 0 && b.X - center.X == 0) {
-//            if (a.Y - center.Y >= 0 || b.Y - center.Y >= 0)
-//                return a.Y > b.Y;
-//        }
-//
-//        // compute the cross product
-//        int det = (a.X - center.X) * (b.Y - center.Y) - (b.X - center.X) * (a.Y - center.Y);
-//
-//        if (det < 0)
-//            return true;
-//        if (det > 0)
-//            return false;
-//
-//        //a and b are on the same line from the center
-//        int d1 = (a.X - center.X) * (a.X - center.X) + (a.Y - center.Y) * (a.Y - center.Y);
-//        int d2 = (b.X - center.X) * (b.X - center.X) + (b.Y - center.Y) * (b.Y - center.Y);
-//        return d1 > d2;
-//    }
-
-//    MeshTile checkTile;
-//            while (list.size() > 0) {
-//
-//                checkTile = list.get(0);
-//
-//                for (Direction dir : Direction.getAll()) {
-//
-//                    RSTile adjTile = checkTile.getAdjacentTile(dir);
-//
-//                    MeshTile chkTile;
-//                    if ((chkTile = generator.findTile(adjTile)) == null)
-//                        chkTile = new MeshTile(adjTile);
-//
-//                    if (list.contains(chkTile)) {
-//                        result.add(chkTile);
-//                        break;
-//                    }
-//
-//                }
-//
-//                list.remove(0);
-//            }
-
-//    private int findNearestIndex(MeshTile meshTile, List<MeshTile> result) {
-//
-//        double nearestDistSquared = Double.POSITIVE_INFINITY;
-//        int nearestIndex = 0;
-//        for (int i = 0; i < result.size(); i++) {
-//            MeshTile t = result.get(i);
-//            double distsq = (meshTile.X - t.X) * (meshTile.X - t.X)
-//                    + (meshTile.Y - t.Y) * (meshTile.Y - t.Y);
-//            if (distsq < nearestDistSquared) {
-//                nearestDistSquared = distsq;
-//                nearestIndex = i;
-//            }
-//        }
-//        return nearestIndex;
-//    }
-
-//    private List<MeshTile> sortClockwise(List<MeshTile> list, Generator generator) {
-//
-//        List<MeshTile> result = new ArrayList<>();
-//
-//        result.add(list.remove(0));
-//
-//        while (!list.isEmpty()) {
-//
-//            int nearestIndex = findNearestIndex(list.get(list.size() - 1), list);
-//
-//            result.add(list.remove(nearestIndex));
-//        }
-//
-//
-//        return result;
-
-//        List<MeshTile> result = new ArrayList<>();
-//
-//        if (list.size() == 1)
-//            return result;
-//
-//        MeshTile startTile = list.get(0);
-//        result.add(startTile);
-//
-//        while (startTile != null) {
-//
-//            if (list.size() == result.size())
-//                break;
-//
-//            int distance = Integer.MAX_VALUE;
-//            MeshTile closest = null;
-//
-//            for (MeshTile t : list) {
-//
-//                if (t.equals(startTile))
-//                    continue;
-//
-//                int distanceTo = startTile.distanceTo(t);
-//                if (closest == null || distance > distanceTo) {
-//                    distance = distanceTo;
-//                    closest = t;
-//                }
-//            }
-//
-//            result.add(closest);
-//            startTile = closest;
-//        }
-//
-//        return result;
-//
-//        float averageX = 0;
-//        float averageY = 0;
-//
-//        for (MeshTile t : list) {
-//            averageX += t.X;
-//            averageY += t.Y;
-//        }
-//
-//        final float finalAverageY = averageX / list.size();
-//        final float finalAverageX = averageY / list.size();
-//
-//        Comparator<MeshTile> comparator = new Comparator<MeshTile>() {
-//            @Override
-//            public int compare(MeshTile lhs, MeshTile rhs) {
-//
-//                double o1Angle = Math.atan2(lhs.Y - finalAverageY, lhs.X - finalAverageX);
-//                double o2Angle = Math.atan2(rhs.Y - finalAverageY, rhs.X - finalAverageX);
-//
-//                if (o1Angle < o2Angle)
-//                    return -1;
-//                if (o1Angle > o2Angle)
-//                    return 1;
-//
-//                return 0;
-//            }
-//        };
-//
-//        Collections.sort(list, comparator);
-//
-//        return list;
-//    }
 
     private List<MeshTile> removeUnneededBoundaryTiles(List<MeshTile> boundaryTiles) {
 
@@ -359,7 +211,7 @@ public class Polytope extends AbstractShape {
         }
 
         boundaryTiles.removeAll(removeableTiles);
-        return removeableTiles;
+        return boundaryTiles;
     }
 
     @Override

@@ -8,22 +8,22 @@ import org.tribot.api2007.types.RSTile;
  */
 public class CollisionFlags {
 
-	public static final int OPEN = 0;
-	public static final int CLOSED = 0xFFFFFF;
-	public static final int UNINITIALIZED = 0x1000000;
-	public static final int OCCUPIED = 0x100;
-	public static final int SOLID = 0x20000;
-	public static final int BLOCKED = 0x200000;
+	public static final int OPEN          = 0x0;
+	public static final int OCCUPIED      = 0x100;
+	public static final int SOLID         = 0x20000;
+	public static final int BLOCKED       = 0x200000;
+    public static final int CLOSED        = 0xFFFFFF;
+    public static final int UNINITIALIZED = 0x1000000;
 
-	public static final int NORTH = 0x2; //fences etc
-	public static final int EAST = 0x8;
-	public static final int SOUTH = 0x20;
-	public static final int WEST = 0x80;
+	public static final int NORTH  = 0x2; //fences etc
+	public static final int EAST   = 0x8;
+	public static final int SOUTH  = 0x20;
+	public static final int WEST   = 0x80;
 
+	public static final int NORTHWEST = 0x1;
 	public static final int NORTHEAST = 0x4;
 	public static final int SOUTHEAST = 0x10;
 	public static final int SOUTHWEST = 0x40;
-	public static final int NORTHWEST = 0x1;
 
 	public static final int EAST_NORTH = EAST | NORTH;
 	public static final int EAST_SOUTH = EAST | SOUTH;
@@ -31,9 +31,9 @@ public class CollisionFlags {
 	public static final int WEST_NORTH = WEST | NORTH;
 
 	public static final int BLOCKED_NORTH = 0x400; // blocked == walls
-	public static final int BLOCKED_EAST = 0x1000;
+	public static final int BLOCKED_EAST  = 0x1000;
 	public static final int BLOCKED_SOUTH = 0x4000;
-	public static final int BLOCKED_WEST = 0x10000;
+	public static final int BLOCKED_WEST  = 0x10000;
 
 	public static final int BLOCKED_NORTHEAST = 0x800;
 	public static final int BLOCKED_SOUTHEAST = 0x2000;

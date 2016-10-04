@@ -191,7 +191,6 @@ public class NavMesh implements Serializable {
         return null;
     }
 
-
     private Path findPath(final Path path, final AbstractShape start, final AbstractShape target, final Positionable origin, final Positionable destination, final boolean useTeleports, final boolean useShortcuts) {
 
         // Check if we are already inside the same shape, if so, we can walk without obstacles.

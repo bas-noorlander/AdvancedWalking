@@ -32,7 +32,7 @@ public enum Direction implements Serializable {
 		return this.offsetY;
 	}
 
-	private Direction(int offsetX, int offsetY) {
+	Direction(int offsetX, int offsetY) {
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
 	}

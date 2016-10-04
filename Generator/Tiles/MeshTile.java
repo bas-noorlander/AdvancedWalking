@@ -20,10 +20,10 @@ public class MeshTile implements Positionable {
     public int X;
     public int Y;
     public int Plane;
-    public int CollisionData;
+    private int CollisionData;
 
-    public boolean isBlockedNorth = false, isBlockedEast = false, isBlockedSouth = false, isBlockedWest = false;
-    public boolean isBlockedNorthEast = false, isBlockedSouthEast = false, isBlockedSouthWest = false, isBlockedNorthWest = false;
+    private boolean isBlockedNorth = false, isBlockedEast = false, isBlockedSouth = false, isBlockedWest = false;
+    private boolean isBlockedNorthEast = false, isBlockedSouthEast = false, isBlockedSouthWest = false, isBlockedNorthWest = false;
 
     private transient RSObject[] objects;
     private transient RSTile RSTile;
@@ -56,14 +56,8 @@ public class MeshTile implements Positionable {
      */
     public boolean isAdjacentTile(Positionable pos) {
 
-        for (Direction dir : Direction.getAllOrdinal())
-        {
-            RSTile adjPos = getAdjacentTile(dir);
-            if (adjPos != null && adjPos.equals(pos))
-                return true;
-        }
+        return distanceToDouble(pos) <= 1.4;
 
-        return false;
     }
 
     public RSObject[] getObjects() {
@@ -91,6 +85,9 @@ public class MeshTile implements Positionable {
 
         if (result.isBlocked(CollisionFlags.BLOCKED))
             return null;
+
+//        if (!PathFinding.isTileWalkable(result))
+//            return null;
 
         if (isBlocked(direction)) {
 
@@ -139,28 +136,28 @@ public class MeshTile implements Positionable {
     private void calculateCollision() {
         // it's fastest to store these in a boolean
 
-        if (isBlocked(CollisionFlags.NORTH))
+        if (isBlocked(CollisionFlags.NORTH) || isBlocked(CollisionFlags.SOLID))
             isBlockedNorth = true;
 
-        if (isBlocked(CollisionFlags.EAST))
+        if (isBlocked(CollisionFlags.EAST) || isBlocked(CollisionFlags.SOLID))
             isBlockedEast = true;
 
-        if (isBlocked(CollisionFlags.SOUTH))
+        if (isBlocked(CollisionFlags.SOUTH) || isBlocked(CollisionFlags.SOLID))
             isBlockedSouth = true;
 
-        if (isBlocked(CollisionFlags.WEST))
+        if (isBlocked(CollisionFlags.WEST) || isBlocked(CollisionFlags.SOLID))
             isBlockedWest = true;
 
-        if (isBlocked(CollisionFlags.NORTHEAST))
+        if (isBlocked(CollisionFlags.NORTHEAST) || isBlocked(CollisionFlags.SOLID))
             isBlockedNorthEast = true;
 
-        if (isBlocked(CollisionFlags.SOUTHEAST))
+        if (isBlocked(CollisionFlags.SOUTHEAST) || isBlocked(CollisionFlags.SOLID))
             isBlockedSouthEast = true;
 
-        if (isBlocked(CollisionFlags.SOUTHWEST))
+        if (isBlocked(CollisionFlags.SOUTHWEST) || isBlocked(CollisionFlags.SOLID))
             isBlockedSouthWest = true;
 
-        if (isBlocked(CollisionFlags.NORTHWEST))
+        if (isBlocked(CollisionFlags.NORTHWEST) || isBlocked(CollisionFlags.SOLID))
             isBlockedNorthWest = true;
     }
 
