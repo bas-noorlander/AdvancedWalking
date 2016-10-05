@@ -8,42 +8,26 @@ import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * @author Laniax
  */
 public class BoundaryFloodFill {
 
-    private static List<MeshTile> closedList = new ArrayList<>();
-    private static Stack<MeshTile> tileStack = new Stack<>();
-
     public static List<MeshTile> run(List<MeshTile> tiles, Generator generator) {
-
-        tileStack.clear();
-        closedList.clear();
 
         List<MeshTile> result = new ArrayList<>();
 
         if (tiles.size() < 1)
             return result;
 
-        // Add all the tiles from this shape to the list.
-        tileStack.addAll(tiles);
+        for (MeshTile tile : tiles) {
 
-        while (!tileStack.isEmpty()) {
-
-            MeshTile curTile = tileStack.pop();
-
-            if (closedList.contains(curTile))
-                continue;
-
-            // we will check every direction if the tile is still in our shape, if not, we add this tile as a boundary tile.
             boolean isBoundary = false;
 
-            for (Direction direction : Direction.getAllCardinal()) {
+            for (Direction direction : Direction.getAll()) {
 
-                RSTile adjTile = curTile.getAdjacentTile(direction);
+                RSTile adjTile = tile.getAdjacentTile(direction);
 
                 MeshTile chkTile;
                 if ((chkTile = generator.findTile(adjTile)) == null)
@@ -51,7 +35,6 @@ public class BoundaryFloodFill {
 
                 if (!tiles.contains(chkTile)) {
                     // this adjacent is NOT in our shape, so the current tile is a boundary tile.
-
                     // But we check for 1x1 holes first.
                     boolean allInShape = true;
                     // Check if its a single hole.
@@ -74,16 +57,17 @@ public class BoundaryFloodFill {
                         allInShape = false;
                     }
 
-                    if (!allInShape)
+                    if (!allInShape) {
                         isBoundary = true;
+                        break;
+                    }
                 }
             }
 
             if (isBoundary) {
-                result.add(curTile);
+                result.add(tile);
             }
 
-            closedList.add(curTile);
         }
 
         return result;
