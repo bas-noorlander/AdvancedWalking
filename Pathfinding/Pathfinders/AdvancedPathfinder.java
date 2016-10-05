@@ -8,12 +8,12 @@ import scripts.AdvancedWalking.Game.Path.Path;
 import scripts.AdvancedWalking.Generator.NavMesh.NavMesh;
 import scripts.AdvancedWalking.Network.CommonFiles;
 import scripts.AdvancedWalking.Network.Updater.Updaters.NavMeshUpdater;
-import scripts.AdvancedWalking.Pathfinding.IPathfinder;
+import scripts.AdvancedWalking.Pathfinding.Pathfinder;
 
 /**
  * @author Laniax
  */
-public class AdvancedPathfinder implements IPathfinder {
+public class AdvancedPathfinder implements Pathfinder {
 
     LogProxy log = new LogProxy("AdvancedPathfinder");
 

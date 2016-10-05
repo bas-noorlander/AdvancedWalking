@@ -1,4 +1,4 @@
-package scripts.AdvancedWalking.Game.World.Teleports.Teleports;
+package scripts.AdvancedWalking.Game.World.Teleports;
 
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.Equipment;
@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Laniax
  */
-public abstract class AbstractItemTeleport implements ITeleport {
+public abstract class ItemTeleport implements Teleport {
 
     public abstract int[] getItemIds();
 

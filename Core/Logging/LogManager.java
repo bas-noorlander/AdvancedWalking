@@ -19,13 +19,13 @@ public class LogManager {
 
     private static final StringBuilder _builder = new StringBuilder();
 
-    public static List<ILogger> _loggers = new ArrayList<>(Arrays.asList(
+    public static List<Logger> _loggers = new ArrayList<>(Arrays.asList(
             //TODO: make this more customizable
             //new BotDebugLogger(),
             new ClientDebugLogger()
     ));
 
-    public static void addLogger(ILogger logger) {
+    public static void addLogger(Logger logger) {
         _loggers.add(logger);
     }
 
@@ -44,7 +44,7 @@ public class LogManager {
 
     static void information(String source, String message, Object... args) {
         synchronized (_lock) {
-            for(ILogger log : _loggers) {
+            for(Logger log : _loggers) {
 
                 String output = prepare(source, message, args);
                 //String colorCoded = AnsiCode.Black.get() + output;
@@ -55,7 +55,7 @@ public class LogManager {
 
     static void warning(String source, String message, Object... args) {
         synchronized (_lock) {
-            for(ILogger log : _loggers) {
+            for(Logger log : _loggers) {
 
                 String output = prepare(source, message, args);
 //                String colorCoded = AnsiCode.Yellow.get() + output;
@@ -66,7 +66,7 @@ public class LogManager {
 
     static void error(String source, String message, Object... args) {
         synchronized (_lock) {
-            for(ILogger log : _loggers) {
+            for(Logger log : _loggers) {
                 String output = prepare(source, message, args);
 //                String colorCoded = AnsiCode.Red.get() + output;
                 log.writeError(output);
@@ -80,7 +80,7 @@ public class LogManager {
        //     return;
 
         synchronized (_lock) {
-            for(ILogger log : _loggers) {
+            for(Logger log : _loggers) {
                 String output = prepare(source, message, args);
 //                String colorCoded = AnsiCode.Red.get() + output;
                 log.writeDebug(output);

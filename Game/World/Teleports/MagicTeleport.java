@@ -1,4 +1,4 @@
-package scripts.AdvancedWalking.Game.World.Teleports.Teleports;
+package scripts.AdvancedWalking.Game.World.Teleports;
 
 import org.tribot.api2007.Inventory;
 import org.tribot.api2007.Skills;
@@ -12,7 +12,7 @@ import scripts.AdvancedWalking.Game.Items.Runes.RuneSet;
  *
  * @author Laniax
  */
-public abstract class AbstractMagicTeleport implements ITeleport {
+public abstract class MagicTeleport implements Teleport {
 
     public abstract RuneSet getRunes();
 

@@ -234,6 +234,7 @@ public class Polytope extends AbstractShape {
             // Now we can remove unneeded points.
             boundaryTiles = removeUnneededBoundaryTiles(boundaryTiles);
 
+
             // and finally create the polygon.
             for (MeshTile t : boundaryTiles) {
                 result.addPoint(t.X, t.Y);

@@ -11,18 +11,15 @@ import org.tribot.api2007.ext.Filters;
 import org.tribot.api2007.types.RSObject;
 import org.tribot.api2007.types.RSObjectDefinition;
 import org.tribot.api2007.types.RSTile;
-import scripts.AdvancedWalking.Core.Logging.LogProxy;
-import scripts.AdvancedWalking.Game.Path.AbstractStep;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
+import scripts.AdvancedWalking.Game.Path.PathStep;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleport;
 
 /**
  * A StairStep is a stair in a path.
  *
  * @author Laniax
  */
-public class StairStep extends AbstractStep {
-
-    LogProxy log = new LogProxy("StairStep");
+public class StairStep implements PathStep {
 
     private final Condition planeCondition = new Condition() {
         public boolean active() {
@@ -47,17 +44,17 @@ public class StairStep extends AbstractStep {
     }
 
     @Override
-    protected RSTile destination() {
-        return this._destination;
+    public RSTile destination() {
+        return _destination;
     }
 
     @Override
-    protected ITeleport getTeleport() {
+    public Teleport getTeleport() {
         return null;
     }
 
     @Override
-    protected boolean run() {
+    public boolean run() {
 
         RSObject[] res = Objects.find(15, Filters.Objects.tileEquals(this._stairPos).combine(Filters.Objects.actionsContains("Climb"), false));
 
@@ -75,7 +72,7 @@ public class StairStep extends AbstractStep {
             }
 
             if (climbCount == 0) {
-                log.info("Tried to use stairs but couldn't find a climb option!");
+                General.println("Tried to use stairs but couldn't find a climb option!");
                 return false;
             }
 
@@ -90,15 +87,12 @@ public class StairStep extends AbstractStep {
                 }
             }
 
-            // Now failsafe some clicking
-            int failsafes = General.random(3, 5);
+            //todo: isonscreen checks
 
-            while (!Clicking.click(option, res[0]) && failsafes > 0) {
-                General.sleep(100, 250); //todo: delay - abc
-                failsafes--;
+            if (Clicking.click(option, res[0])) {
+                return Timing.waitCondition(planeCondition, General.random(4500, 5200)); //todo: delay - abc
             }
 
-            return Timing.waitCondition(planeCondition, General.random(4500, 5200)); //todo: delay - abc
         }
         return false;
     }

@@ -1,24 +1,24 @@
-package scripts.AdvancedWalking.Game.World.Teleports.Teleports.Spells;
+package scripts.AdvancedWalking.Game.World.Teleports.Spells;
 
 import org.tribot.api2007.Constants;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Collections.Pair;
 import scripts.AdvancedWalking.Game.Items.Runes.Rune;
 import scripts.AdvancedWalking.Game.Items.Runes.RuneSet;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractMagicTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.MagicTeleport;
 
 /**
  * @author Laniax
  */
-public class LumbridgeTeleport extends AbstractMagicTeleport {
+public class VarrockTeleport extends MagicTeleport {
 
     private final RuneSet _set = new RuneSet(
             new Pair<>(Rune.LAW, 1),
             new Pair<>(Rune.AIR, 3),
-            new Pair<>(Rune.EARTH, 1)
+            new Pair<>(Rune.FIRE, 1)
     );
 
-    private final RSTile _destination = new RSTile(3221, 3219, 0);
+    private final RSTile _destination = new RSTile(3212, 3426, 0);
 
     @Override
     public RuneSet getRunes() {
@@ -37,12 +37,12 @@ public class LumbridgeTeleport extends AbstractMagicTeleport {
 
     @Override
     public int getSpellId() {
-        return Constants.IDs.Spells.tele_lumbridge;
+        return Constants.IDs.Spells.tele_varrock;
     }
 
     @Override
     public int getMagicLevel() {
-        return 31;
+        return 25;
     }
 
     @Override
@@ -56,7 +56,6 @@ public class LumbridgeTeleport extends AbstractMagicTeleport {
 
     @Override
     public String name() {
-        return "Lumbridge Teleport";
+        return "Varrock Teleport";
     }
-
 }

@@ -4,7 +4,7 @@ import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Game.World.Direction;
 import scripts.AdvancedWalking.Generator.NavMesh.AbstractShape;
-import scripts.AdvancedWalking.Generator.NavMesh.IShapeFactory;
+import scripts.AdvancedWalking.Generator.NavMesh.ShapeFactory;
 import scripts.AdvancedWalking.Generator.NavMesh.NavMesh;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
@@ -21,9 +21,9 @@ public class Generator {
 
     public Set<MeshTile> validTiles;
 
-    IShapeFactory factory;
+    ShapeFactory factory;
 
-    public Generator(IShapeFactory factory, Set<MeshTile> validTiles) {
+    public Generator(ShapeFactory factory, Set<MeshTile> validTiles) {
         this.validTiles = validTiles;
         this.factory = factory;
     }

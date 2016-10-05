@@ -5,7 +5,7 @@ import scripts.AdvancedWalking.Game.Path.Path;
 /**
  * @author Laniax
  */
-public interface IOnPathFound {
+public interface PathFound {
 
     void onPathFound(Path path);
 }

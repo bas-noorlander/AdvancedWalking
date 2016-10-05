@@ -1,12 +1,12 @@
 package scripts.AdvancedWalking.Core.Logging.Loggers;
 
 import org.tribot.api.General;
-import scripts.AdvancedWalking.Core.Logging.ILogger;
+import scripts.AdvancedWalking.Core.Logging.Logger;
 
 /**
  * @author Laniax
  */
-public class ClientDebugLogger implements ILogger{
+public class ClientDebugLogger implements Logger {
 
     @Override
     public void writeInformation(String message) {

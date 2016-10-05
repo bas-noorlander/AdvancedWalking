@@ -2,12 +2,12 @@ package scripts.AdvancedWalking.Walking.Walkers;
 
 import org.tribot.api2007.WebWalking;
 import scripts.AdvancedWalking.Game.Path.Path;
-import scripts.AdvancedWalking.Walking.IWalker;
+import scripts.AdvancedWalking.Walking.Walker;
 
 /**
  * @author Laniax
  */
-public class WebWalker implements IWalker{
+public class WebWalker implements Walker {
 
     @Override
     public boolean walk(Path path) {

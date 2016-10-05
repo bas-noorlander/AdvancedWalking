@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * @author Laniax
  */
-public interface ITileCollector {
+public interface TileCollector {
 
     void collect();
 

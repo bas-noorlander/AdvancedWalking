@@ -1,8 +1,8 @@
-package scripts.AdvancedWalking.Game.World.Teleports.Teleports.Items;
+package scripts.AdvancedWalking.Game.World.Teleports.Items;
 
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Core.Collections.Pair;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractItemTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.ItemTeleport;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Laniax
  */
-public class RingOfDueling extends AbstractItemTeleport {
+public class RingOfDueling extends ItemTeleport {
 
     private static List<Pair<String, RSTile>> _destinations = new ArrayList<>(Arrays.asList(
             new Pair<>("Al Kharid Duel Arena", new RSTile(3313, 3092, 0)),

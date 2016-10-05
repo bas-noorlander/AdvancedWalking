@@ -6,7 +6,7 @@ import scripts.AdvancedWalking.Game.Path.Path;
 /**
  * @author Laniax
  */
-public interface IPathfinder {
+public interface Pathfinder {
 
     boolean isInitialized();
 

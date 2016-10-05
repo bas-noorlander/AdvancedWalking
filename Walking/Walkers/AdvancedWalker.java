@@ -6,12 +6,12 @@ import org.tribot.api.types.generic.Condition;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Walking;
 import scripts.AdvancedWalking.Game.Path.Path;
-import scripts.AdvancedWalking.Walking.IWalker;
+import scripts.AdvancedWalking.Walking.Walker;
 
 /**
  * @author Laniax
  */
-public class AdvancedWalker implements IWalker {
+public class AdvancedWalker implements Walker {
 
     @Override
     public boolean walk(Path path) {

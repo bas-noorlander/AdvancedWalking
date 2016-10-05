@@ -2,18 +2,15 @@ package scripts.AdvancedWalking.Game.Path.Steps;
 
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
-import scripts.AdvancedWalking.Core.Logging.LogProxy;
-import scripts.AdvancedWalking.Game.Path.AbstractStep;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
+import scripts.AdvancedWalking.Game.Path.PathStep;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleport;
 
 /**
  * A CustomStep is a special-case in a path. Think a boat ride or something similar.
  *
  * @author Laniax
  */
-public class CustomStep extends AbstractStep {
-
-    LogProxy log = new LogProxy("CustomStep");
+public class CustomStep implements PathStep {
 
     private RSTile _destination;
 
@@ -21,18 +18,23 @@ public class CustomStep extends AbstractStep {
         this._destination = destination.getPosition();
     }
 
+    /**
+     * The step's fina destination.
+     *
+     * @return
+     */
     @Override
-    protected RSTile destination() {
+    public RSTile destination() {
         return this._destination;
     }
 
     @Override
-    protected ITeleport getTeleport() {
+    public Teleport getTeleport() {
         return null;
     }
 
     @Override
-    protected boolean run() {
+    public boolean run() {
         return false;
     }
 }

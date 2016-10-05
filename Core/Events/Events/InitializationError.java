@@ -3,7 +3,7 @@ package scripts.AdvancedWalking.Core.Events.Events;
 /**
  * @author Laniax
  */
-public interface IOnMeshUpdated {
+public interface InitializationError {
 
-    void onMeshUpdated();
+    void onInitilizationError();
 }

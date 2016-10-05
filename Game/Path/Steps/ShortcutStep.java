@@ -2,18 +2,15 @@ package scripts.AdvancedWalking.Game.Path.Steps;
 
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
-import scripts.AdvancedWalking.Core.Logging.LogProxy;
-import scripts.AdvancedWalking.Game.Path.AbstractStep;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
+import scripts.AdvancedWalking.Game.Path.PathStep;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleport;
 
 /**
  * A ShortcutStep is a agility shortcut in a path.
  *
  * @author Laniax
  */
-public class ShortcutStep extends AbstractStep {
-
-    LogProxy log = new LogProxy("ShortcutStep");
+public class ShortcutStep implements PathStep {
 
     private RSTile _destination;
 
@@ -25,17 +22,18 @@ public class ShortcutStep extends AbstractStep {
     }
 
     @Override
-    protected RSTile destination() {
-        return this._destination;
+    public RSTile destination() {
+        return _destination;
     }
 
     @Override
-    protected ITeleport getTeleport() {
+
+    public Teleport getTeleport() {
         return null;
     }
 
     @Override
-    protected boolean run() {
+    public boolean run() {
         return false;
     }
 }

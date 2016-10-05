@@ -1,51 +1,48 @@
 package scripts.AdvancedWalking.Game.Path.Steps;
 
 import org.tribot.api2007.types.RSTile;
-import scripts.AdvancedWalking.Core.Logging.LogProxy;
-import scripts.AdvancedWalking.Game.Path.AbstractStep;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractItemTeleport;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractMagicTeleport;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
+import scripts.AdvancedWalking.Game.Path.PathStep;
+import scripts.AdvancedWalking.Game.World.Teleports.ItemTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.MagicTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleport;
 
 /**
  * A TeleportStep is a teleport in a path.
  *
  * @author Laniax
  */
-public class TeleportStep extends AbstractStep {
-
-    LogProxy log = new LogProxy("TeleportStep");
+public class TeleportStep implements PathStep {
 
     private RSTile _destination;
 
-    private ITeleport _teleport;
+    private Teleport _teleport;
 
-    public TeleportStep(ITeleport teleport) {
+    public TeleportStep(Teleport teleport) {
         this._teleport = teleport;
     }
 
     @Override
-    protected RSTile destination() {
-        return this._destination;
+    public RSTile destination() {
+        return _destination;
     }
 
     @Override
-    protected ITeleport getTeleport() {
+    public Teleport getTeleport() {
         return _teleport;
     }
 
     @Override
-    protected boolean run() {
+    public boolean run() {
 
-        if (getTeleport() instanceof AbstractMagicTeleport) {
+        if (getTeleport() instanceof MagicTeleport) {
 
-            AbstractMagicTeleport teleport = (AbstractMagicTeleport) getTeleport();
+            MagicTeleport teleport = (MagicTeleport) getTeleport();
 
             //todo: do spell logic
 
-        } else if(getTeleport() instanceof AbstractItemTeleport) {
+        } else if(getTeleport() instanceof ItemTeleport) {
 
-            AbstractItemTeleport teleport = (AbstractItemTeleport) getTeleport();
+            ItemTeleport teleport = (ItemTeleport) getTeleport();
 
             //todo: do item logic
 

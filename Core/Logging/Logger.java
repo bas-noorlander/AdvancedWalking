@@ -4,7 +4,7 @@ package scripts.AdvancedWalking.Core.Logging;
  * Interface for any text logger.
  * @author Laniax
  */
-public interface ILogger {
+public interface Logger {
 
     void writeInformation(String message);
 

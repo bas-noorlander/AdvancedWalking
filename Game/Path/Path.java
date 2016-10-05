@@ -1,23 +1,33 @@
 package scripts.AdvancedWalking.Game.Path;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Laniax
  */
 public class Path {
 
-    public void append(AbstractStep step) {
+    private List<PathStep> _path = new ArrayList<>();
 
+    public void append(PathStep step) {
+        _path.add(step);
     }
 
-    public AbstractStep getLast() {
-        return null;
+    public PathStep getLast() {
+        return _path.get(_path.size() - 1);
     }
 
     public int getLength() {
-        return 0;
+        return _path.size();
     }
 
-    public AbstractStep getStep(int i) {
-        return null;
+    public PathStep getStep(int i) {
+        return _path.get(i);
+    }
+
+    public List<PathStep> getAll() {
+        return _path;
     }
 }

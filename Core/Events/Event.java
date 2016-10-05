@@ -1,17 +1,17 @@
 package scripts.AdvancedWalking.Core.Events;
 
-import scripts.AdvancedWalking.Core.Events.Events.IOnInitializationError;
-import scripts.AdvancedWalking.Core.Events.Events.IOnMeshUpdated;
-import scripts.AdvancedWalking.Core.Events.Events.IOnPathFound;
+import scripts.AdvancedWalking.Core.Events.Events.InitializationError;
+import scripts.AdvancedWalking.Core.Events.Events.MeshUpdated;
+import scripts.AdvancedWalking.Core.Events.Events.PathFound;
 
 /**
  * @author Laniax
  */
 public enum Event {
 
-    PATH_FOUND(IOnPathFound.class),
-    MESH_UPDATED(IOnMeshUpdated.class),
-    INITIALIZED_ERROR(IOnInitializationError.class);
+    PATH_FOUND(PathFound.class),
+    MESH_UPDATED(MeshUpdated.class),
+    INITIALIZED_ERROR(InitializationError.class);
 
     private Class _c;
     Event(Class c) {

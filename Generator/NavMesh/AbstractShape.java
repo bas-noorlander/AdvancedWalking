@@ -6,7 +6,7 @@ import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Game.Path.Path;
 import scripts.AdvancedWalking.Game.Path.Steps.TileStep;
 import scripts.AdvancedWalking.Game.World.RSPolygon;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ITeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Teleport;
 import scripts.AdvancedWalking.Generator.Generator;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
@@ -21,7 +21,7 @@ import java.util.*;
 public abstract class AbstractShape implements Serializable {
 
     private Set<AbstractShape> adjacentShapes = new LinkedHashSet<>();
-    private Set<ITeleport> teleports = new HashSet<>();
+    private Set<Teleport> teleports = new HashSet<>();
 
     private RSPolygon polygon;
 
@@ -74,7 +74,7 @@ public abstract class AbstractShape implements Serializable {
      * But if the player starts on this shape, it might also be a spell/item teleport.
      * @return
      */
-    public Set<ITeleport> getTeleports() {
+    public Set<Teleport> getTeleports() {
         return teleports;
     }
 
@@ -83,7 +83,7 @@ public abstract class AbstractShape implements Serializable {
      * @param teleport
      * @return
      */
-    public boolean addTeleport(ITeleport teleport) {
+    public boolean addTeleport(Teleport teleport) {
         return teleports.add(teleport);
     }
 
@@ -92,7 +92,7 @@ public abstract class AbstractShape implements Serializable {
      * @param teleport
      * @return
      */
-    public boolean removeTeleport(ITeleport teleport) {
+    public boolean removeTeleport(Teleport teleport) {
         return teleports.remove(teleport);
     }
 

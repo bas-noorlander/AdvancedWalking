@@ -5,10 +5,10 @@ import org.tribot.api2007.WebWalking;
 import scripts.AdvancedWalking.Core.Events.EventManager;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Game.Path.Path;
-import scripts.AdvancedWalking.Pathfinding.IPathfinder;
+import scripts.AdvancedWalking.Pathfinding.Pathfinder;
 import scripts.AdvancedWalking.Pathfinding.Pathfinders.AdvancedPathfinder;
 import scripts.AdvancedWalking.Pathfinding.Pathfinders.WebPathfinder;
-import scripts.AdvancedWalking.Walking.IWalker;
+import scripts.AdvancedWalking.Walking.Walker;
 import scripts.AdvancedWalking.Walking.Walkers.AdvancedWalker;
 import scripts.AdvancedWalking.Walking.Walkers.WebWalker;
 
@@ -23,8 +23,8 @@ public final class AdvancedWalking {
     private static boolean _useAgilityShortcuts = true;
     private static boolean _useWebWalkingFallback = true;
 
-    private static IPathfinder _pathfinder = new AdvancedPathfinder();
-    private static IWalker _walker = new AdvancedWalker();
+    private static Pathfinder _pathfinder = new AdvancedPathfinder();
+    private static Walker _walker = new AdvancedWalker();
 
     /**
      * Prevent instantiation
@@ -35,7 +35,7 @@ public final class AdvancedWalking {
      * Change the pathfinder, this allows you to switch between pathfinding algorithms during runtime.
      * @param pathfinder
      */
-    public static void setPathfinder(IPathfinder pathfinder) {
+    public static void setPathfinder(Pathfinder pathfinder) {
         _pathfinder = pathfinder;
 
         _pathfinder.init();
@@ -45,7 +45,7 @@ public final class AdvancedWalking {
      * Change the walker, this allows you to switch between walking methods during runtime.
      * @param walker
      */
-    public static void setWalker(IWalker walker) {
+    public static void setWalker(Walker walker) {
         _walker = walker;
     }
 

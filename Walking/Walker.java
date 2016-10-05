@@ -5,7 +5,7 @@ import scripts.AdvancedWalking.Game.Path.Path;
 /**
  * @author Laniax
  */
-public interface IWalker {
+public interface Walker {
 
     boolean walk(final Path path);
 }

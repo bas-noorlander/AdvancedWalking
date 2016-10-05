@@ -6,10 +6,10 @@ import scripts.AdvancedWalking.Core.Collections.Pair;
 import scripts.AdvancedWalking.Core.Logging.LogProxy;
 import scripts.AdvancedWalking.Game.Path.Path;
 import scripts.AdvancedWalking.Game.Path.Steps.TileStep;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractItemTeleport;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.AbstractMagicTeleport;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.ItemTeleportManager;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.SpellTeleportManager;
+import scripts.AdvancedWalking.Game.World.Teleports.ItemTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.MagicTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.ItemTeleportManager;
+import scripts.AdvancedWalking.Game.World.Teleports.SpellTeleportManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -130,10 +130,10 @@ public class NavMesh implements Serializable {
 
     }
 
-    private AbstractItemTeleport processItemTeleports(AbstractShape start, Positionable origin, Positionable destination) {
+    private ItemTeleport processItemTeleports(AbstractShape start, Positionable origin, Positionable destination) {
 
         // Get the best and relevant item teleport that we can do, and include it in the cost calculations.
-        Pair<AbstractItemTeleport, Integer> itemTeleport = ItemTeleportManager.getBestTeleport(origin, destination);
+        Pair<ItemTeleport, Integer> itemTeleport = ItemTeleportManager.getBestTeleport(origin, destination);
 
         if (itemTeleport != null) {
 
@@ -160,10 +160,10 @@ public class NavMesh implements Serializable {
         return null;
     }
 
-    private AbstractMagicTeleport processSpellTeleports(AbstractShape start, Positionable origin, Positionable destination) {
+    private MagicTeleport processSpellTeleports(AbstractShape start, Positionable origin, Positionable destination) {
 
         // Get the best and relevant spell teleport that we can do, and include it in the cost calculations.
-        AbstractMagicTeleport spellTeleport = SpellTeleportManager.getBestTeleport(origin, destination);
+        MagicTeleport spellTeleport = SpellTeleportManager.getBestTeleport(origin, destination);
 
         if (spellTeleport != null) {
 
@@ -208,8 +208,8 @@ public class NavMesh implements Serializable {
 
         boolean failed = false;
 
-        AbstractItemTeleport item = null;
-        AbstractMagicTeleport spell = null;
+        ItemTeleport item = null;
+        MagicTeleport spell = null;
 
         if (useTeleports) {
             item = processItemTeleports(start, origin, destination);

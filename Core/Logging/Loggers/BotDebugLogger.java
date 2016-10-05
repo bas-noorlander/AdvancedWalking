@@ -1,11 +1,11 @@
 package scripts.AdvancedWalking.Core.Logging.Loggers;
 
-import scripts.AdvancedWalking.Core.Logging.ILogger;
+import scripts.AdvancedWalking.Core.Logging.Logger;
 
 /**
  * @author Laniax
  */
-public class BotDebugLogger implements ILogger{
+public class BotDebugLogger implements Logger {
 
     @Override
     public void writeInformation(String message) {

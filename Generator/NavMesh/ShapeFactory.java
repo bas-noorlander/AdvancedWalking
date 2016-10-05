@@ -6,7 +6,7 @@ import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 /**
  * @author Laniax
  */
-public interface IShapeFactory<T> {
+public interface ShapeFactory<T> {
 
     /**
      * Creates a new shape object.

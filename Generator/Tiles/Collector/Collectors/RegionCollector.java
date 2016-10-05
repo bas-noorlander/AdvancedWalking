@@ -4,7 +4,7 @@ import org.tribot.api2007.Game;
 import org.tribot.api2007.types.RSArea;
 import org.tribot.api2007.types.RSTile;
 import scripts.AdvancedWalking.Game.World.CollisionFlags;
-import scripts.AdvancedWalking.Generator.Tiles.Collector.ITileCollector;
+import scripts.AdvancedWalking.Generator.Tiles.Collector.TileCollector;
 import scripts.AdvancedWalking.Generator.Tiles.MeshTile;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * @author Laniax
  */
-public class RegionCollector implements ITileCollector {
+public class RegionCollector implements TileCollector {
 
     private ArrayList<RSTile> scannedList = new ArrayList<>();
 

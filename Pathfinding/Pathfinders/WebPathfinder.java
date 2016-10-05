@@ -3,12 +3,12 @@ package scripts.AdvancedWalking.Pathfinding.Pathfinders;
 import org.tribot.api.interfaces.Positionable;
 import scripts.AdvancedWalking.Game.Path.Path;
 import scripts.AdvancedWalking.Game.Path.Steps.TileStep;
-import scripts.AdvancedWalking.Pathfinding.IPathfinder;
+import scripts.AdvancedWalking.Pathfinding.Pathfinder;
 
 /**
  * @author Laniax
  */
-public class WebPathfinder implements IPathfinder {
+public class WebPathfinder implements Pathfinder {
 
     @Override
     public boolean isInitialized() {

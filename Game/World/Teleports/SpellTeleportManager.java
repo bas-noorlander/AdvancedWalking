@@ -1,12 +1,9 @@
-package scripts.AdvancedWalking.Game.World.Teleports.Teleports;
+package scripts.AdvancedWalking.Game.World.Teleports;
 
 import org.tribot.api.interfaces.Positionable;
 import org.tribot.api2007.types.RSTile;
-import scripts.AdvancedWalking.Core.Collections.Pair;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.Items.AmuletOfGlory;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.Items.RingOfDueling;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.Spells.LumbridgeTeleport;
-import scripts.AdvancedWalking.Game.World.Teleports.Teleports.Spells.VarrockTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Spells.LumbridgeTeleport;
+import scripts.AdvancedWalking.Game.World.Teleports.Spells.VarrockTeleport;
 
 import java.util.*;
 
@@ -15,13 +12,13 @@ import java.util.*;
  */
 public class SpellTeleportManager {
 
-    public static List<AbstractMagicTeleport> _spellTeleports = new ArrayList<>(Arrays.asList(
+    public static List<MagicTeleport> _spellTeleports = new ArrayList<>(Arrays.asList(
             //TODO: make this more customizable
             new LumbridgeTeleport(),
             new VarrockTeleport()
     ));
 
-    public static List<AbstractMagicTeleport> getAllTeleports() {
+    public static List<MagicTeleport> getAllTeleports() {
 
         return _spellTeleports;
     }
@@ -34,9 +31,9 @@ public class SpellTeleportManager {
      * @param destination - the destination we want to reach
      * @return a list with all the teleports we are able to do.
      */
-    public static List<AbstractMagicTeleport> getValidTeleports(Positionable origin, Positionable destination) {
+    public static List<MagicTeleport> getValidTeleports(Positionable origin, Positionable destination) {
 
-        List<AbstractMagicTeleport> result = new ArrayList<>();
+        List<MagicTeleport> result = new ArrayList<>();
 
         RSTile org = origin.getPosition();
         if (org == null)
@@ -44,9 +41,9 @@ public class SpellTeleportManager {
 
         int distanceToDestination = org.distanceTo(destination);
 
-        List<AbstractMagicTeleport> allTeleports = getAllTeleports();
+        List<MagicTeleport> allTeleports = getAllTeleports();
 
-        for (AbstractMagicTeleport teleport : allTeleports) {
+        for (MagicTeleport teleport : allTeleports) {
 
             if (!teleport.isValid()) //todo: banking runes / teletab
                 continue;
@@ -69,12 +66,12 @@ public class SpellTeleportManager {
      * @param destination
      * @return
      */
-    public static AbstractMagicTeleport getBestTeleport(Positionable origin, Positionable destination) {
+    public static MagicTeleport getBestTeleport(Positionable origin, Positionable destination) {
 
         int distance = Integer.MAX_VALUE;
-        AbstractMagicTeleport result = null;
+        MagicTeleport result = null;
 
-        for (AbstractMagicTeleport teleport : getValidTeleports(origin, destination)) {
+        for (MagicTeleport teleport : getValidTeleports(origin, destination)) {
 
             RSTile teleportDestination = teleport.getDestination();
             if (teleportDestination != null) {
