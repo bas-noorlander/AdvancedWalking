@@ -18,7 +18,7 @@ public class LumbridgeTeleport extends AbstractMagicTeleport {
             new Pair<>(Rune.EARTH, 1)
     );
 
-    private final RSTile _destination = new RSTile(0,0,0); //todo
+    private final RSTile _destination = new RSTile(3221, 3219, 0);
 
     @Override
     public RuneSet getRunes() {

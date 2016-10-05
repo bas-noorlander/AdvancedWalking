@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class RingOfDueling extends AbstractItemTeleport {
 
-    public static List<Pair<String, RSTile>> _destinations = new ArrayList<>(Arrays.asList(
-            new Pair<>("Al Kharid Duel Arena", new RSTile(0, 0, 0)),
-            new Pair<>("Castle Wars Arena", new RSTile(0, 0, 0))
+    private static List<Pair<String, RSTile>> _destinations = new ArrayList<>(Arrays.asList(
+            new Pair<>("Al Kharid Duel Arena", new RSTile(3313, 3092, 0)),
+            new Pair<>("Castle Wars Arena", new RSTile(2441, 3092, 0))
     ));
 
     @Override
@@ -23,6 +23,12 @@ public class RingOfDueling extends AbstractItemTeleport {
         return new int[]{
                 2552, // 8
                 2554, // 7
+                2556, // 6
+                2558, // 5
+                2560, // 4
+                2562, // 3
+                2564, // 2
+                2566, // 1
         };
     }
 
