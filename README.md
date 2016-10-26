@@ -1,5 +1,6 @@
 # AdvancedWalking
 A navmesh pathfinder/walking library for Tribot.
+It is currently still in development and not yet ready for production usage.
 
 ##### What is AdvancedWalking?
 It's the next generation of pathfinding in osrs botting, written specifically for the Tribot client, with the aim to replace WebWalking.
@@ -29,20 +30,15 @@ Note that the first time that a method is called, be it #travel() or #walk() (or
 ##### Code features
 Full javadocs are available [here](https://laniax.github.io/AdvancedWalking/).
 
-
 ##### Advanced usage
 Want more out of AdvancedWalking? Thats great! it is made with customization in mind and should be easy to extend.
 Some key features:
 
 Use your own walking methods by creating a class that implements `Walker`, after which you can set it by `AdvancedWalking.setWalker()`. (you can even switch between walking algorithms during runtime!).
 
-You can also use your own pathfinding algorithm! implement `IPathfinder` and use `AdvancedWalking.setPathfinder()`.
-
-Want to customize the mesh itself? You can customize the Generator as you like, however this means you will have to keep your own version of the mesh available somewhere. (by default it downloads and uses a mesh made by me). However, i made all preparations for this, you can even change the updater to download your version!
-
-Want to change the generator's shape? By default they are polytopes. But you can make your own, like circles or rainbows.
-Extend `AbstractShape` and `ShapeFactory`. The included SampleGeneratorScript shows a very simple solution on how to use them.
-
-You also have complete control on how the updater works, so you can point it to your own version of the mesh if you like. You can do so by extending `AbstractUpdater` and change your class that implements `IPathfinder` to use that updater.
+You can also use your own pathfinding algorithm! implement `Pathfinder` and use `AdvancedWalking.setPathfinder()`.
 
 Furthermore, there is an advanced Event system which let you hook into AdvancedWalking to modify data or trigger your own code. Exact code usage is still under development, but will be along the lines of: `EventManager.listen(yourClassThatImplementsIOnFindPath);` or `EventManager.listen(yourClassThatImplementsIOnUpdatedMesh);` which will allow you to run additional code or make adjustments to the parameters before it is processed further.
+
+##### Projects
+The data that AdvancedWalking uses is collected by the AdvancedWalking-Collector and then modified into navmesh data by the AdvancedWalking-Generator. You can clone/fork these projects and make adjustments as you wish, please note that changing them will require you to regenerate the navmesh data, and thus you should host it somewhere so it can be available and used by your scripts. You will most likely want to write a custom updater to grab it from your host. You can extend `AbstractUpdater` for that and make the class that implements `Pathfinder` use that updater.
